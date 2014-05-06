@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n" 
+      metal:use-macro="base_bootstrap"
+      i18n:domain="c3smembership">
+  <tal:block metal:fill-slot="middle">
+    <div style="text-align:left;">
+      <strong style="color:red;" tal:repeat="message request.session.peek_flash('message_above_form')">
+	${message}
+      </strong>
+    </div>
+    <h2>login</h2>
+    <div id="form" tal:content="structure form"/>
+  </tal:block>
+</html>

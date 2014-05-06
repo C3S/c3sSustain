@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="backend"
+      i18n:domain="zabo">
+  <tal:block metal:fill-slot="middle">
+    <h1>Statistiken</h1>
+    <h3><small>Anzahl</small> Abos, etc.</h3>
+    <p>
+      ${_number_of_datasets} DB-Einträge
+      <small>Eingegangene Abos</small><br />
+      ${sum_abos_total} Euro, insgesammt.<br />
+      ${sum_abos_unpaid} Euro, die noch nicht bezahlt sind.<br />
+      ${sum_abos_paid} Euro, die schon bezahlt sind.<br />
+    </p>
+  </tal:block>
+  <tal:block metal:fill-slot="bottom">
+    <div class="hidden-print">
+      <p>
+        <a href="${request.route_url('dash')}"
+            class="btn btn-primary">Dashboard</a>
+        <a href="${request.route_url('logout')}" class="btn btn-danger">Abmelden</a>
+      </p>
+    </div>
+  </tal:block>
+</html>

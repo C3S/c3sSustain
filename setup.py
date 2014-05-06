@@ -9,16 +9,26 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
+    'colander',
+    'cryptacular',
+    'deform',
     'pyramid',
+    'pyramid_beaker',
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
+    'pyramid_mailer',
     'pyramid_tm',
+    'python-gnupg',
     'SQLAlchemy',
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    ]
-
+]
+test_requires = [
+    'webtest',
+    'nose',
+    'nose-cov',
+]
 setup(name='zabo',
       version='0.0',
       description='zabo',
@@ -37,7 +47,7 @@ setup(name='zabo',
       include_package_data=True,
       zip_safe=False,
       test_suite='zabo',
-      install_requires=requires,
+      install_requires=requires+test_requires,
       entry_points="""\
       [paste.app_factory]
       main = zabo:main

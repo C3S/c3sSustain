@@ -1,9 +1,9 @@
-@import url(//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700);
+@import url(/static/css_fonts/css_fonts.css);
 body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   color: #ffffff;
-  background: #bc2131;
+  background: #21AA58;
 }
 h1,
 h2,
@@ -28,6 +28,9 @@ p {
 }
 .starter-template {
   margin-top: 250px;
+}
+.zform-template {
+  margin-top: 70px;
 }
 .starter-template .content {
   margin-left: 10px;
