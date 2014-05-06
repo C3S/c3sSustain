@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal">
+  <head>
+    <title>C3S AFM backend</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <link rel="shortcut icon"
+          href="${request.static_url('zabo:static/favicon.ico')}" />
+    <link  rel="stylesheet"
+           href="${request.static_url('zabo:static/bootstrap-3.0.3-dist/css/bootstrap.css')}"
+           type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet"
+          href="${request.static_url('zabo:static/c3s_b.css')}"
+          type="text/css" media="screen" charset="utf-8" />
+    <tal:block metal:define-slot="css"></tal:block>
+  </head>
+  <body>
+    <div id="container">
+      <div id="top">
+        <div class="top">
+	  <tal:block metal:define-slot="top"></tal:block>
+        </div>
+      </div>
+      <div id="middle">
+        <div class="middle">
+	  <tal:block metal:define-slot="middle"></tal:block>
+        </div>
+      </div>
+      <div id="bottom">
+        <div class="bottom">
+	  <tal:block metal:define-slot="bottom"></tal:block>
+        </div>
+      </div>
+    </div>
+    <div>
+      <script src="${request.static_url('zabo:static/jquery-2.0.3/jquery-2.0.3.min.js')}"
+              type="text/javascript"></script>
+      <script src="${request.static_url('zabo:static/bootstrap-3.0.3-dist/js/bootstrap.js')}"
+              type="text/javascript"></script>
+      <tal:block metal:define-slot="javascript"></tal:block>
+    </div>
+  </body>
+</html>
