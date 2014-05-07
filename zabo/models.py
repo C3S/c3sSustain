@@ -187,9 +187,10 @@ class Abo(Base):
     when supporters use the form, their submissions are saved here
     '''
     __tablename__ = 'abos'
+    __table_args__ = ({'sqlite_autoincrement': True})
     id = Column(Integer, primary_key=True)
     # form data
-    name = Column(Unicode, unique=False)
+    name = Column(Unicode)
     email = Column(Unicode)
     amount = Column(Integer)
     date_issued = Column(Date)  # started when?
@@ -345,4 +346,4 @@ class Abo(Base):
                 sum_total += int(abo.amount)
         return sum_total
 
-Index('abo_index', Abo.name, unique=True, mysql_length=255)
+Index('abo_index', Abo.name, mysql_length=255)
