@@ -305,6 +305,19 @@ class Abo(Base):
         return DBSession.query(cls).count()
 
     @classmethod
+    def get_matching_refcodes(cls, prefix):
+        '''
+        return only reference codes matching the prefix
+        '''
+        all = DBSession.query(cls).all()
+        refcodes = []
+        for item in all:
+            if item.refcode.startswith(prefix):
+                refcodes.append(item.refcode)
+        print("number of items found: %s" % len(refcodes))
+        return refcodes
+
+    @classmethod
     def abo_listing(cls, order_by, how_many=10, offset=0, order='asc'):
         '''
         get all objects in DB

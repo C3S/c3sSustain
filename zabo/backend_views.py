@@ -234,41 +234,27 @@ def dashboard_view(request):
     #print("num_display: %s" % num_display)
     request.response.set_cookie('num_display', value=str(num_display))
 
-    #
-    # prepare the autocomplete form for codes
-    #
-    # get codes from another view via subrequest, see
-    # http://docs.pylonsproject.org/projects/pyramid/en/latest/narr/subrequest.html
-    #subreq = Request.blank('/all_codes')  # see http://0.0.0.0:6543/all_codes
-    #response = request.invoke_subrequest(subreq)
-    #print("the subrequests response: %s" % response.body)
-    #import requests
-    #r = requests.get('http://0.0.0.0:6543/all_codes')
-    #the_codes = json.loads(r.text)  # gotcha: json needed!
-    #the_codes = json.loads(response.body)  # gotcha: json needed!
-    the_codes = ['a', 'b']
-
-    my_autoc_wid = deform.widget.AutocompleteInputWidget(
-        min_length=1,
-        title="widget title",
-        values=the_codes,
-    )
-
-    # prepare a form for autocomplete search for codes.
-    class CodeAutocompleteForm(colander.MappingSchema):
+    # prepare a form for autocomplete search for reference codes.
+    class RefcodeAutocompleteForm(colander.MappingSchema):
         """
         colander schema to make deform autocomplete form
         """
         code_to_show = colander.SchemaNode(
             colander.String(),
-            title="Search entry (autocomplete)",
+            title='Code finden (quicksearch; Groß-/Kleinschreibung beachten!)',
             validator=colander.Length(min=1, max=8),
-            widget=my_autoc_wid,
+            widget=deform.widget.AutocompleteInputWidget(
+                min_length=1,
+                #title="widget title",
+                values=request.route_path(
+                    'autocomplete_refcode_input_values',
+                    traverse=('autocomplete_refcode_input_values')
+                )
+            ),
             description='start typing. use arrows. press enter. twice.'
-
         )
 
-    schema = CodeAutocompleteForm()
+    schema = RefcodeAutocompleteForm()
     form = deform.Form(
         schema,
         buttons=('go!',),
@@ -276,8 +262,6 @@ def dashboard_view(request):
         #renderer=zpt_renderer,
     )
     autoformhtml = form.render()
-    #import pdb
-    #pdb.set_trace()
 
     return {'_number_of_datasets': _number_of_datasets,
             'abos': _abos,
@@ -292,6 +276,21 @@ def dashboard_view(request):
             'order': _order,
             'orderby': _order_by,
             }
+
+
+@view_config(renderer='json',
+             permission='manage',
+             route_name='autocomplete_refcode_input_values')
+def autocomplete_refcode_input_values(request):
+    '''
+    AJAX view/helper function
+    returns the matching set of values for autocomplete/quicksearch
+
+    this function and view expects a parameter 'term' (?term=foo) containing a
+    string to find matching entries (e.g. starting with 'foo') in the database
+    '''
+    text = request.params.get('term', '')
+    return Abo.get_matching_refcodes(text)
 
 
 @view_config(permission='manage',

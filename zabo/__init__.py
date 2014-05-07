@@ -59,6 +59,7 @@ def main(global_config, **settings):
     config.add_route('logout', '/logout')
     config.add_route('dash', '/dash')
     config.add_route('dashboard', '/dashboard/{number}/{orderby}/{order}')
+    config.add_route('autocomplete_refcode_input_values', '/ariv/')
     config.add_route('new_abo', '/new_abo')
     config.add_route('payment_received', '/paym_recd/{abo_id}')
     config.add_route('send_confirmation_email', '/mail_mail_conf/{abo_id}')
