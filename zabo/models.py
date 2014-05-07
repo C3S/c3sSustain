@@ -38,7 +38,7 @@ def make_random_string():
     randomstring = u''.join(
         random.choice(
             string.ascii_uppercase + string.digits
-        ) for x in range(10))
+        ) for x in range(5))
     # check if code is already used
     print(
         "checking code: %s" % Abo.check_for_existing_refcode(
