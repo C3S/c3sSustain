@@ -40,15 +40,15 @@ def make_random_string():
             string.ascii_uppercase + string.digits
         ) for x in range(5))
     # check if code is already used
-    print(
-        "checking code: %s" % Abo.check_for_existing_refcode(
-            randomstring))
+    #print(
+    #    "checking code: %s" % Abo.check_for_existing_refcode(
+    #        randomstring))
     while (Abo.check_for_existing_refcode(randomstring)):
             # create a new one, if the new one already exists in the database
             #print("generating new code")
             randomstring = make_random_string()  # pragma: no cover
     the_string = u'' + randomstring + u'Abo'
-    print "return that string: {}".format(the_string)
+    #print "return that string: {}".format(the_string)
     return the_string
 
 from zope.sqlalchemy import ZopeTransactionExtension
