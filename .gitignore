@@ -1,0 +1,6 @@
+.coverage
+env/
+*.egg-info*
+*.sqlite*
+#*
+.#*
