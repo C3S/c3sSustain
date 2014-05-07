@@ -222,10 +222,10 @@ Links zu deiner Grafik und der Bestätigungsseite, die dein Engagement zeigt.
         )
         try:
             mailer.send(the_mail)
-            print(the_mail.body)
+            #print(the_mail.body)
         except:  # pragma: no cover
-            print "mail NOT sent !!!"
-            print(the_mail.body)
+            print "mail NOT sent to {}!!!".format(new_abo.email)
+            #print(the_mail.body)
         from zabo.gnupg_encrypt import encrypt_with_gnupg
         #print request.registry.settings
         # send mail to accountants
