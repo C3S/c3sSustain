@@ -182,7 +182,7 @@ def sendmail_view(request):
         DBSession.add(new_abo)
         DBSession.flush()
 
-        print "added Abo #{}: {}".format(new_abo.id, new_abo.refcode)
+        #print "added Abo #{}: {}".format(new_abo.id, new_abo.refcode)
         # send email
         mailer = get_mailer(request)
         body_lines = (  # a list of lines
