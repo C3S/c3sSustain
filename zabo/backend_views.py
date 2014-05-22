@@ -17,6 +17,11 @@ from pyramid_mailer import get_mailer
 from pyramid_mailer.message import Message
 from types import NoneType
 
+from .views import (
+    _,
+    zpt_renderer,
+)
+from mail_utils import mailbody_transfer_received
 from .models import (
     Abo,
     Staff,
@@ -33,7 +38,7 @@ def logout_view(request):
     can be used to log a user/staffer off. "forget"
     """
     request.session.invalidate()
-    request.session.flash(u'Logged out successfully.')
+    request.session.flash(_(u'Logged out successfully.'))
     #print "logged out."
     headers = forget(request)
     return HTTPFound(location=request.route_url('login'),
@@ -62,14 +67,14 @@ def accountants_login(request):
         """
         login = colander.SchemaNode(
             colander.String(),
-            title=u"login",
+            title=_(u"login"),
             oid="login",
         )
         password = colander.SchemaNode(
             colander.String(),
             validator=colander.Length(min=5, max=100),
             widget=deform.widget.PasswordWidget(size=20),
-            title=(u"password"),
+            title=_(u"password"),
             oid="password",
         )
 
@@ -78,11 +83,11 @@ def accountants_login(request):
     form = deform.Form(
         schema,
         buttons=[
-            deform.Button('submit', (u'Submit')),
-            deform.Button('reset', (u'Reset'))
+            deform.Button('submit', _(u'Submit')),
+            deform.Button('reset', _(u'Reset'))
         ],
         #use_ajax=True,
-        #renderer=zpt_renderer
+        renderer=zpt_renderer
     )
 
     # if the form has been used and SUBMITTED, check contents
@@ -349,35 +354,15 @@ def send_mail_view(request):
                 #orderby=request.cookies['orderby'],
             )
         )
-
+    _url = request.registry.settings['the_url']
     mailer = get_mailer(request)
-    body_lines = (u'''Hallo {} !
-
-Wir haben Deine Überweisung erhalten. Dankeschön!
-
-Du kannst folgenden link benutzen, um dein Badge zu laden,
-damit du es auf deiner Website hosten kannst:
-
-  https://zabo.c3s.cc/sponsor/{}.png
-
-Du kannst auf die folgende Seite verlinken,
-die öffentlich (!) den aktuellen Status deines Abos anzeigt:
-
-  https://zabo.c3s.cc/sponsor/{}.html
-
-Bis bald!
-
-Dein C3S-Team'''.format(
-        _abo.name,
-        _abo.linkcode,
-        _abo.linkcode,)
-    )
+    body_lines = mailbody_transfer_received(_abo, _url)
     #print '#'*80
     #print body_lines
     #print '*'*60
     the_mail_body = u''.join([line for line in body_lines])
     the_mail = Message(
-        subject=(u"C3S ZuschussAbo: deine Links!"),
+        subject=_(u"C3S ZuschussAbo: deine Links!"),
         sender="noreply@c3s.cc",
         recipients=[_abo.email],
         body=the_mail_body
@@ -409,7 +394,7 @@ Dein C3S-Team'''.format(
              route_name='delete_entry')
 def delete_entry(request):
     """
-    This view lets accountants delete entries (doublettes)
+    This view lets accountants delete entries (e.g. doublettes)
     """
     abo_id = request.matchdict['abo_id']
     _abo = Abo.get_by_id(abo_id)

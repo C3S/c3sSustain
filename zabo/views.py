@@ -4,10 +4,16 @@ from colander import Range
 import deform
 from deform import ValidationFailure
 #from pyramid.response import Response
+from pyramid.i18n import (
+    get_locale_name,
+    get_localizer,
+)
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
 from pyramid_mailer import get_mailer
 from pyramid_mailer.message import Message
+from pyramid.threadlocal import get_current_request
+
 #from sqlalchemy.exc import DBAPIError
 
 from pkg_resources import resource_filename
@@ -20,10 +26,65 @@ my_search_path = (deform_templates, zabo_templates)
 
 _ = TranslationStringFactory('zabo')
 
+
+def translator(term):
+    #print("=== this is def translator")
+    return get_localizer(get_current_request()).translate(term)
+
+my_template_dir = resource_filename('zabo', 'templates/')
+deform_template_dir = resource_filename('deform', 'templates/')
+
+zpt_renderer = deform.ZPTRendererFactory(
+    [
+        my_template_dir,
+        deform_template_dir,
+    ],
+    translator=translator,
+)
+# the zpt_renderer above is referred to within the demo.ini file by dotted name
+
 from .models import (
     DBSession,
     Abo,
 )
+
+
+@view_config(route_name='home', renderer='templates/landing_page.pt')
+def landing_page_view(request):
+    '''
+    the landing page
+
+    what people see when they hit the subdomain.
+
+    all text is contained in the template: templates/landing_page.pt
+    '''
+    # if another language was chosen by clicking on a flag
+    # the add_locale_to_cookie subscriber has planted an attr on the request
+    if hasattr(request, '_REDIRECT_'):
+        #print("request._REDIRECT_: " + str(request._REDIRECT_))
+
+        _query = request._REDIRECT_
+        #print("_query: " + _query)
+        # set language cookie
+        request.response.set_cookie('_LOCALE_', _query)
+        request._LOCALE_ = _query
+        #locale_name = _query
+        #print("locale_name (from query_string): " + locale_name)
+        #from pyramid.httpexceptions import HTTPFound
+        #print("XXXXXXXXXXXXXXX ==> REDIRECTING ")
+        return HTTPFound(location=request.route_url('home'),
+                         headers=request.response.headers)
+    else:
+        locale_name = get_locale_name(request)
+
+    financial_blog_url = 'https://www.c3s.cc/news/our-dear-financial-situation'
+    # debug: check locale
+    #print "the locale: {}".format(get_locale_name(request))
+
+    return {
+        'foo': 'bar',
+        'financial_situation_blog': financial_blog_url,
+    }
 
 
 @view_config(route_name='zform', renderer='templates/zform.pt')
@@ -34,22 +95,22 @@ def zform_view(request):
     class AboForm(colander.MappingSchema):
         name = colander.SchemaNode(
             colander.String(),
-            title='Name oder Alias',
+            title=_(u'Name or pseudonym'),
         )
         email = colander.SchemaNode(
             colander.String(),
-            title='Email',
+            title=_(u'E-mail'),
             validator=colander.Email(),
         )
         amount = colander.SchemaNode(
             colander.Integer(),
             #widget=deform.widget.MoneyInputWidget(
             #    options={'allowZero': False}),
-            title='Betrag (in ganzen €)',
+            title=_(u'Amount (in full Euro)'),
             validator=Range(
                 min=5,
-                min_err=_(u'mindestens 5 Euro, '
-                          u'sonst sind die anfallenden Gebühren zu hoch.'),
+                min_err=_(u'at least 5 Euro, '
+                          u'otherwise the cost of transfer are too high.'),
             )
         )
     schema = AboForm()
@@ -57,10 +118,14 @@ def zform_view(request):
     zform = deform.Form(
         schema,
         buttons=[
-            deform.Button('submit', 'Eingaben prüfen')
-        ]
+            deform.Button('submit', _(u'Check details')),
+            deform.Button('why', _(u'Why sustain C3S?')),
+        ],
+        renderer=zpt_renderer,
     )
-
+    # if people want to know "Why sustain C3S", send them to the landing page
+    if 'why' in request.POST:
+        return HTTPFound(request.route_url('home'))
     # if the form has been used and SUBMITTED, check contents
     if 'submit' in request.POST:
         controls = request.POST.items()
@@ -80,8 +145,8 @@ def zform_view(request):
             print(e)
             #message.append(
             request.session.flash(
-                (u"Please note: There were errors, "
-                 "please check the form below."),
+                _(u"Please note: There were errors, "
+                  u"please check the form below."),
                 'message_above_form',
                 allow_duplicate=False)
             return{'zform': e.render()}
@@ -105,12 +170,12 @@ def zform_view(request):
     }
 
 
-@view_config(route_name='confirm_data', renderer='templates/confirm_data.pt')
+@view_config(route_name='confirm_data',
+             renderer='templates/confirm_data.pt')
 def confirm_abo(request):
     '''
     show the data received to the user and let her confirm the submission
     '''
-    #print request.POST
     if 're-edit' in request.POST:
         #print "re-edit: go to form"
         return HTTPFound(location=request.route_url('zform'))
@@ -128,12 +193,12 @@ def confirm_abo(request):
         class AboForm(colander.MappingSchema):
             name = colander.SchemaNode(
                 colander.String(),
-                title='Name oder Alias',
+                title=_(u'Name or pseudonym'),
                 widget=deform.widget.TextInputWidget(readonly=True),
             )
             email = colander.SchemaNode(
                 colander.String(),
-                title='Email',
+                title=_(u'Email'),
                 validator=colander.Email(),
                 widget=deform.widget.TextInputWidget(readonly=True),
             )
@@ -142,16 +207,17 @@ def confirm_abo(request):
                 widget=deform.widget.MoneyInputWidget(
                     options={'allowZero': False},
                     readonly=True,),
-                title='Betrag',
+                title=_(u'Amount'),
             )
         schema = AboForm()
 
         confirmform = deform.Form(
             schema,
             buttons=[
-                deform.Button('sendmail', 'Eingaben bestätigen'),
-                deform.Button('re-edit', 'Eingaben verändern'),
-            ]
+                deform.Button('sendmail', _(u'Confirm Details')),
+                deform.Button('re-edit', _(u'Change Details')),
+            ],
+            renderer=zpt_renderer,
         )
 
         return {'confirmform': confirmform.render(
@@ -179,44 +245,22 @@ def sendmail_view(request):
             email=appstruct['email'],
             amount=str(appstruct['amount']),
         )
+        new_abo.locale = get_locale_name(request)
+        #print "the locale: {}".format(new_abo.locale)
         DBSession.add(new_abo)
         DBSession.flush()
 
         #print "added Abo #{}: {}".format(new_abo.id, new_abo.refcode)
         # send email
         mailer = get_mailer(request)
-        body_lines = (  # a list of lines
-            u'Hallo ', new_abo.name, u''' !
 
-Wir haben Deine Abonnementsdaten erhalten.
+        from mail_utils import mailbody_transfer_directions
+        the_mail_body = mailbody_transfer_directions(new_abo)
 
-Bitte richte nun einen monatlichen Dauerauftrag ein über ''',
-            str(new_abo.amount) + u''' Euro
-auf unser Konto bei der
-
-EthikBank eG
-Kontoinhaber: C3S SCE
-BIC:\t GENO DE F1 ETK
-IBAN:\t DE79830944950003264378
-
-Betrag (€): ''' + str(new_abo.amount) + u'''
-Verwendungszweck: ''' + new_abo.refcode + u'''
-
-Bitte achte auf den Verwendungszweck, damit wir die Zahlung zweifelsfrei
-Dir zuordnen können.
-
-Sobald wir den Eingang der Zahlung bemerken, schicken wir Dir eine Email mit
-Links zu deiner Grafik und der Bestätigungsseite, die dein Engagement zeigt.
-''',
-            (u"Bis bald!"), u'''
-
-''',
-            (u"Dein C3S-Team"),
-        )
-        the_mail_body = ''.join([line for line in body_lines])
         the_mail = Message(
-            subject=(u"C3S Zuschuss Abo: bitte überweisen!"),
-            sender="noreply@c3s.cc",
+            subject=_(u'I sustain C3S: awaiting your contribution'),
+            #(u"C3S Zuschuss Abo: bitte überweisen!"),
+            sender=request.registry.settings['mail_from'],
             recipients=[new_abo.email, ],
             body=the_mail_body
         )
@@ -230,12 +274,12 @@ Links zu deiner Grafik und der Bestätigungsseite, die dein Engagement zeigt.
         #print request.registry.settings
         # send mail to accountants
         acc_mail = Message(
-            subject='[C3S_ZA] neues abo?',
-            sender="noreply@c3s.cc",
+            subject=_('[C3S_ZA] neues abo?'),
+            sender=request.registry.settings['mail_from'],
             recipients=[
                 request.registry.settings['mailrecipient']],
             body=encrypt_with_gnupg(u'''
-we just send email to a user:
+we just send email with payment information to a user:
 name: %s
 email: %s
 amount: %s
@@ -247,6 +291,7 @@ amount: %s
         request.session.invalidate()
         return {
             'firstname': appstruct['name'],
+            'sender': request.registry.settings['mail_from'],
         }
     # 'else': send user to the form
     return HTTPFound(location=request.route_url('zform'))

@@ -1,23 +1,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html lang="${request.locale_name}"
+      xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal">
   <head>
-    <title>
-      ZAbo BAckend
-    </title>
+    <title>Sustain C3S</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <meta name="keywords" content="Membership Application to join C3S SCE" />
+    <meta name="keywords" content="Sustain C3S" />
     <meta name="description" content="" />
     <link rel="shortcut icon"
           href="${request.static_url('zabo:static/favicon.ico')}" />
     <link href="${request.static_url('zabo:static/bootstrap-3.0.3-dist/css/bootstrap.css')}"
           rel="stylesheet" type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet"
-          href="${request.static_url('zabo:static/c3s_b.css')}"
+          href="${request.static_url('zabo:static/theme.css')}"
           type="text/css" media="screen" charset="utf-8" />
+
     <tal:block metal:define-slot="css"></tal:block>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="$request.static_url('zabo:static/html5shiv/3.7.0/html5shiv.js')"></script>
+      <script src="$request.static_url('zabo:static/respond.js/1.3.0/respond.min.js')"></script>
+    <![endif]-->
     <!--[if lte IE 6]>
         <link rel="stylesheet" href="${request.static_url('zabo:static/ie6.css')}"
 	      type="text/css" media="screen" charset="utf-8" />
@@ -28,7 +33,8 @@
       <div id="top">
         <div class="top align-center">
           <div><img src="${request.static_url('zabo:static/logo_horiz_w700.png')}"
-		    alt="Cultural Commons Collecting Society (C3S)"/></div>
+		    alt="Cultural Commons Collecting Society (C3S)"
+                    class="img-responsive"/></div>
         </div>
       </div>
       <div id="middle">
@@ -45,9 +51,10 @@
       </div>
     </div>
     <div id="footer">
-      <div class="footer">
+      <div class="footer alert alert-success">
         &copy; Copyright 2014, C3S SCE.
-        <a href="https://www.c3s.cc/kontakt/">Kontakt &amp; Impressum</a>
+        <a href="https://www.c3s.cc/kontakt/"
+           i18n:translate="">Contact &amp; Imprint</a>
       </div>
     </div>
     <tal:block metal:define-slot="javascript-last"></tal:block>

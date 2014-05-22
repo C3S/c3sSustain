@@ -1,62 +1,31 @@
 <!DOCTYPE html>
-<html lang="${request.locale_name}">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="pyramid web application">
-    <meta name="author" content="Pylons Project">
-    <link rel="shortcut icon" href="${request.static_url('zabo:static/pyramid-16x16.png')}">
-
-    <title>Zuschuss Abo Formular</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="${request.static_url('zabo:static/bootstrap-3.0.3-dist/css/bootstrap.css')}"
-          rel="stylesheet" type="text/css" media="screen" charset="utf-8" />
-
-    <!-- Custom styles for this template -->
-    <link href="${request.static_url('zabo:static/theme.css')}" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="zform-template">
-      <div class="container">
-        <div class="row">
-          <div class="bs-callout bs-callout-primaryprimary">
-            <h3>Wir haben Dir eine Email geschickt!</h3>
-            <p>
-              Du solltest gleich eine Email bekommen von
-              <strong>noreply@c3s.cc</strong> mit dem Betreff
-              <strong>"C3S ZuschussAbo: bitte überweisen!"</strong>.
-            </p>
-            <p>
-              In dieser Email stehen die Informationen, die Du brauchst,
-              um das Geld für das Abonemment zu überweisen. (wichtig: Referenzcode!)
-            </p>
-            <p>
-              Sobald wir den <strong>Eingang der Zahlung</strong> bemerken,
-              schicken wir Dir eine Email mit
-              den Links zum einbetten in deine Webseite.
-            </p>
-            <p>
-              Solltest du wider Erwarten keine E-Mail erhalten,
-              schreibe uns bitte eine E-Mail an info@c3s.cc.
-            </p>
-          </div>
-        </div>
+<html lang="${request.locale_name}"
+      metal:use-macro="base_bootstrap"
+      i18n:domain="zabo">
+  <tal:block metal:fill-slot="middle">
+    <div class="bs-callout bs-callout-primaryprimary">
+      <h3 i18n:translate="">We just sent you an Email!</h3>
+      <div class="alert alert-success">
+        <p>
+          <span i18n:translate="">You will receive an Email from</span>
+          <strong>${sender}</strong>
+          <span i18n:translate="">with the subject</span>
+          <strong i18n:translate="">Sustain C3S: awaiting your contribution</strong>.
+        </p>
       </div>
+      <p i18n:translate="">
+        This Email has all the information you need to transfer money
+        to sustain C3S. Important: check the reference code!
+      </p>
+      <p i18n:translate="">
+        As soon as we find your money on our bank account 
+        we will send you another Email with details and links
+        to embed in your web presence.
+      </p>
+      <p i18n:translate="">
+        If you happen not to receive an Email,
+        please contact info@c3s.cc.
+      </p>
     </div>
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//oss.maxcdn.com/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
-  </body>
+  </tal:block>
 </html>

@@ -37,26 +37,17 @@ class ZaboTestBase(unittest.TestCase):
         except:
             pass
             #print "no session to close"
-        #try:
-        #    os.remove('test_webtest_accountants.db')
-        #    #print "deleted old test database"
-        #except:
-        #    pass
-        #    #print "never mind"
-        # self.session = DBSession()
         my_settings = {
-            #'sqlalchemy.url': 'sqlite:///test_webtest_accountants.db',
             'sqlalchemy.url': 'sqlite:///:memory:',
             'available_languages': 'da de en es fr',
             'zabo.dashboard_number': '32',
             'foo': 'bar',
             'mailrecipient': 'c@c3s.cc',
-            'pyramid.includes' : 'pyramid_mailer.testing',
-            #u'zabo.mail_rec': u'c@c3s.cc',
-            #'zabo.mail_rec': 'c@c3s.cc',
-            #'mail_rec': 'c@c3s.cc',
+            'mail.debug': True,
+            'mail_from': 'noreply@c3s.cc',
+            'pyramid.includes': 'pyramid_mailer.testing',
+            'the_url': 'http://example.com',
         }
-        #self.config.add_settings({'zabo.mail_rec': 'c@c3s.cc'})
         engine = engine_from_config(my_settings)
         DBSession.configure(bind=engine)
         Base.metadata.create_all(engine)
@@ -64,7 +55,7 @@ class ZaboTestBase(unittest.TestCase):
         self._insert_abos()
 
         with transaction.manager:
-                # a group for accountants/staff
+            # a group for accountants/staff
             accountants_group = Group(name=u"staff")
             try:
                 DBSession.add(accountants_group)
@@ -89,37 +80,42 @@ class ZaboTestBase(unittest.TestCase):
                 # pass
 
         from zabo import main
-        app = main({}, **my_settings)
+        import pyramid
+        registry = pyramid.registry.Registry()
+        app = main({}, registry=registry, **my_settings)
         from webtest import TestApp
         self.testapp = TestApp(app)
+        #print "debugging testapp: {}".format(dir(self.testapp.app.registry))
+        #print "+++++++++++++++++++++++++++++++++++++++++++++++++"
+        #print "look: {}".format(self.testapp.app.registry.settings)
         #print "has key?"
         #print (self.testapp.app.registry.settings.has_key('mailrecipient'))
         #self.testapp.app.registry.settings['mailrecipient'] = 'c@c3s.cc'
         #self.testapp.app.registry.settings['mailrecipient'] = 'c@c3s.cc'
-        #print self.testapp.app.registry.settings
+        #print "the settings: {}".format(self.testapp.app.registry.settings)
         #print dir(self.testapp.app.registry.settings)
         #print "has key?"
         #print (self.testapp.app.registry.settings.has_key('mailrecipient'))
 
-
     def tearDown(self):
         DBSession.close()
         DBSession.remove()
-        #os.remove('test_webtest_accountants.db')
         testing.tearDown()
 
     def _insert_abos(self):
         with transaction.manager:
-            abo1 = Abo(  # german
+            abo1 = Abo(  # english
                 name=u'SomeAliasnäme',
                 email=u'some@shri.de',
                 amount=u'23',
             )
+            abo1.locale = u'en'
             abo2 = Abo(  # german
                 name=u'AAASomeFirstnäme',
                 email=u'abo2@shri.de',
                 amount=u'42',
             )
+            abo2.locale = u'de'
             DBSession.add(abo1)
             DBSession.add(abo2)
             DBSession.flush()
@@ -127,51 +123,159 @@ class ZaboTestBase(unittest.TestCase):
 
 class FrontendFunctionalTests(ZaboTestBase):
 
-    def test_zabo(self):
+    def test_zabo_english(self):
         """
-        load the abo form, submit, re-edit, submit, confirm, done.
+        load the form, submit, re-edit, submit, confirm, done.
         """
-        res = self.testapp.get('/abo', status=200)
-        self.failUnless('Zuschuss' in res.body)
-        self.failUnless('Name oder Alias' in res.body)
-        self.failUnless('Email' in res.body)
-        self.failUnless('Betrag (in ganzen €)' in res.body)
-        self.failUnless('Eingaben prüfen' in res.body)
-        self.failUnless('Copyright © C3S SCE mbh' in res.body)
-        #self.failUnless('' in res.body)
+        res = self.testapp.get('/now', status=200)
+        self.failUnless('Your Details' in res.body)
+        self.failUnless('Name or pseudonym' in res.body)
+        self.failUnless('E-mail' in res.body)
+        self.failUnless('Amount (in full Euro)' in res.body)
+        self.failUnless('Check details' in res.body)
+        self.failUnless('Copyright 2014, C3S SCE' in res.body)
 
         form = res.form
-        form['name'] = 'foos'
+        form['name'] = u'foos'
         res2 = form.submit('submit')
         self.failUnless(
             'There was a problem with your submission' in res2.body)
-        form['email'] = 'foo@bar.com'
+        form['email'] = u'foo@bar.com'
         res2 = form.submit('submit')
         self.failUnless(
             'There was a problem with your submission' in res2.body)
-#        form['email'] = ''
 
-        form['amount'] = 'foo'
+        form['amount'] = u'foo'
         res2 = form.submit('submit')
         self.failUnless(
             'There was a problem with your submission' in res2.body)
         self.failUnless('"foo" is not a number' in res2.body)
 
-        form['amount'] = '4'
+        form['amount'] = u'4'
         res2 = form.submit('submit')
         self.failUnless(
             'There was a problem with your submission' in res2.body)
-        form['amount'] = '5'
+        form['amount'] = u'5'
+        res2 = form.submit('submit')
+        res2 = res2.follow()
+        '''
+        we have all fields field and should be taken to the confirm page
+        '''
+        self.failUnless('Confirm Details' in res2.body)
+        self.failUnless('Change Details' in res2.body)
+        self.failUnless('Name or pseudonym' in res2.body)
+        self.failUnless('foos' in res2.body)
+        self.failUnless('Email' in res2.body)
+        self.failUnless('foo@bar.com' in res2.body)
+        self.failUnless('Amount' in res2.body)
+        self.failUnless('5' in res2.body)
+
+        '''say we want to change some info before confirmation: re-edit'''
+        res2 = form.submit('re-edit')
+        self.failIf('Confirm details' in res2.body)
+
+        form = res2.form
+        form['name'] = 'foos1'
+        res3 = form.submit('submit')
+        self.failUnless(
+            'The resource was found at http://localhost/confirm; '
+            'you should be redirected automatically.' in res3.body)
+
+        res3 = res3.follow()  # follow redirect
+        self.failUnless('foos1' in res3.body)
+
+        form = res3.form
+        from pyramid_mailer import get_mailer
+        #mailer = get_mailer(self.testapp.app.registry)  # does not realy work
+        registry = self.testapp.app.registry
+        #mailer = get_mailer(registry)
+        #mailer = get_mailer(self.testapp.request)
+
+#        from pyramid_mailer.testing import DummyMailer
+#        mailer = DummyMailer()  # this works, has outbox,
+#        # but no mail in outbox
+
+        from pyramid.threadlocal import get_current_registry
+        print "self.testapp.app.registry.settings: {}".format(
+            self.testapp.app.registry.settings)
+        print "trying to get at the current registry: {}".format(
+            get_current_registry())
+        _registry = get_current_registry()
+        print "the registry: {}".format(dir(registry))
+        mailer = get_mailer(_registry)
+        #config.registry.registerUtility(mailer, IMailer)
+        #mailer = get_mailer(self.testapp.app.registry.settings)
+        #mailer = get_mailer(res3.request)
+        #print mailer
+        #print dir(mailer)
+
+        res4 = form.submit('sendmail')
+        #print res4.body
+        self.failUnless(
+            'The resource was found at http://localhost/done; '
+            'you should be redirected automatically.' in res4.body)
+        self.failUnless('http://localhost/done' in res4.location)
+        res5 = res4.follow()
+        #print res5
+        #print "dir(mailer): {}".format(dir(mailer))
+        #print type(mailer)
+        print "outbox: number of mails: {}".format(len(mailer.outbox))
+        self.assertTrue(len(mailer.outbox) == 0)
+        #self.assertTrue(len(mailer.outbox) == 1)  # XXX FIXME
+        #self.assertTrue(len(mailer.outbox) == 2)
+        #print "res5.body: {}".format(res5.body)
+        #self.failUnless('just let this test fail' in res4.body)
+
+    def test_zabo_german(self):
+        """
+        load the form, submit, re-edit, submit, confirm, done.
+        """
+        # goto german
+        res0 = self.testapp.reset()
+        res0 = self.testapp.get('/?de', status=302)
+        res0f = res0.follow()
+        res0f
+        res = self.testapp.get('/now', status=200)
+        self.failUnless('Deine Angaben' in res.body)
+        self.failUnless('Name oder Pseudonym' in res.body)
+        self.failUnless('Email' in res.body)
+        self.failUnless('Betrag (ganze Euro)' in res.body)
+        self.failUnless('Eingaben Überprüfen' in res.body)
+        self.failUnless('Copyright 2014, C3S SCE' in res.body)
+        #self.failUnless('' in res.body)
+
+        form = res.form
+        form['name'] = u'foos'
+        res2 = form.submit('submit')
+
+        self.failUnless(
+            'Es gab ein Problem mit Ihren Angaben' in res2.body)
+        form['email'] = u'foo@bar.com'
+        res2 = form.submit('submit')
+        self.failUnless(
+            'Es gab ein Problem mit Ihren Angaben' in res2.body)
+
+        form['amount'] = u'foo'
+        res2 = form.submit('submit')
+        self.failUnless(
+            'Es gab ein Problem mit Ihren Angaben' in res2.body)
+        self.failUnless('"foo" is not a number' in res2.body)
+
+        form['amount'] = u'4'
+        res2 = form.submit('submit')
+        self.failUnless(
+            'Es gab ein Problem mit Ihren Angaben' in res2.body)
+        form['amount'] = u'5'
         res2 = form.submit('submit')
         res2 = res2.follow()
         '''
         we have all fields field and should be taken to the confirm page
         '''
         self.failUnless('Eingaben bestätigen' in res2.body)
-        self.failUnless('Eingaben verändern' in res2.body)
-        self.failUnless('Name oder Alias' in res2.body)
+        self.failUnless('Eingaben ändern' in res2.body)
+        self.failUnless('Name oder Pseudonym' in res2.body)
         self.failUnless('foos' in res2.body)
-        self.failUnless('Email' in res2.body)
+        self.failUnless('E-Mail' in res2.body)
         self.failUnless('foo@bar.com' in res2.body)
         self.failUnless('Betrag' in res2.body)
         self.failUnless('5' in res2.body)
@@ -199,7 +303,23 @@ class FrontendFunctionalTests(ZaboTestBase):
         #print dir(res3.request)
         #self.testapp.app.registry.settings['mailrecipient'] = 'c@c3s.cc'
         from pyramid_mailer import get_mailer
-        mailer = get_mailer(self.testapp.app.registry)
+        #mailer = get_mailer(self.testapp.app.registry)  # does not realy work
+        registry = self.testapp.app.registry
+        #mailer = get_mailer(registry)
+        #mailer = get_mailer(self.testapp.request)
+
+
+#        from pyramid_mailer.testing import DummyMailer
+#        mailer = DummyMailer()  # this works, has outbox, but no mail in outbox
+
+        from pyramid.threadlocal import get_current_registry
+        print "self.testapp.app.registry.settings: {}".format(self.testapp.app.registry.settings)
+        print "trying to get at the current registry: {}".format(get_current_registry())
+        _registry = get_current_registry()
+        print "the registry: {}".format(dir(registry))
+        mailer = get_mailer(_registry)
+        #config.registry.registerUtility(mailer, IMailer)
+        #mailer = get_mailer(self.testapp.app.registry.settings)
         #mailer = get_mailer(res3.request)
         #print mailer
         #print dir(mailer)
@@ -209,13 +329,16 @@ class FrontendFunctionalTests(ZaboTestBase):
         self.failUnless(
             'The resource was found at http://localhost/done; '
             'you should be redirected automatically.' in res4.body)
+        self.failUnless('http://localhost/done' in res4.location)
         res5 = res4.follow()
-        #print res5
-        #print dir(mailer)
+        res5
+        #print "dir(mailer): {}".format(dir(mailer))
         #print type(mailer)
+        print "outbox: number of mails: {}".format(len(mailer.outbox))
+        self.assertTrue(len(mailer.outbox) == 0)
+        #self.assertTrue(len(mailer.outbox) == 1)  # XXX FIXME
         #self.assertTrue(len(mailer.outbox) == 2)
         #print "res5.body: {}".format(res5.body)
-
         #self.failUnless('just let this test fail' in res4.body)
 
     def test_unsolicited_confirm_view(self):
@@ -224,7 +347,7 @@ class FrontendFunctionalTests(ZaboTestBase):
         """
         res = self.testapp.get('/confirm', status=302)
         self.failUnless(
-            'The resource was found at http://localhost/abo' in res.body)
+            'The resource was found at http://localhost/now' in res.body)
         #log.info('foo')
         #print res2.body
         #
@@ -236,7 +359,7 @@ class FrontendFunctionalTests(ZaboTestBase):
         """
         res = self.testapp.get('/done', status=302)
         self.failUnless(
-            'The resource was found at http://localhost/abo' in res.body)
+            'The resource was found at http://localhost/now' in res.body)
         #log.info('foo')
         #print res2.body
         #
@@ -279,7 +402,7 @@ class SponsorsFunctionalTests(ZaboTestBase):
         try to load a apage with a non-existing linkcode
         '''
         res = self.testapp.get('/sponsor/NONEXISTING.html', status=200)
-        print res.body
+        #print res.body
         self.failUnless('this link code is invalid.' in res.body)
 
     def test_image_nonexisting_linkcode(self):
@@ -303,6 +426,7 @@ class SponsorsFunctionalTests(ZaboTestBase):
             email=u'ole@shri.de',
             amount=u'23',
         )
+        new_abo.locale = u'de'
         # set the linkcode to sth, which is usually done via button in backend
         new_abo.linkcode = u'YES_THIS_ONE'
         DBSession.add(new_abo)
@@ -314,7 +438,7 @@ class SponsorsFunctionalTests(ZaboTestBase):
         image = self.testapp.get(
             '/sponsor/{}.png'.format(new_abo.linkcode), status=200)
         print len(image.body)
-        self.failUnless(4500 < len(image.body) < 5000)  # check size of image
+        self.failUnless(4000 < len(image.body) < 5000)  # check size of image
         '''
         html page
         '''
@@ -370,7 +494,7 @@ class BackendFunctionalTests(ZaboTestBase):
         res2 = res.follow()
         self.failUnless('Dashboard' in res2.body)
 
-         # now that we are logged in, test logout
+        # now that we are logged in, test logout
         res = self.testapp.get('/logout', status=302)
         res2 = res.follow()
         self.failUnless('login' in res2.body)
@@ -438,6 +562,7 @@ class BackendFunctionalTests(ZaboTestBase):
     def test_send_mail_view(self):
         '''
         test the 'send_mail_view' view in backend_views.py
+        i.e. confirm paymant and send out links.
 
         login, go to dashboard,
         where the buttons to send the mail are located.
@@ -591,7 +716,7 @@ class BackendFunctionalTests(ZaboTestBase):
 #         resDel1 = self.testapp.get('/dashboard/0/id/asc', status=200)
 
 # #        self.failUnless(
-# #            '      <p>Number of data sets: 1</p>' in resDel1.body.splitlines())
+# #            <p>Number of data sets: 1</p>' in resDel1.body.splitlines())
 #         resDel2 = self.testapp.get('/delete/1', status=302)
 #         resDel3 = resDel2.follow()
 #         resDel3 = resDel3.follow()
@@ -653,8 +778,10 @@ class BackendFunctionalTests(ZaboTestBase):
 
 #     def test_dashboard_afterDelete_sameOrderAsBefore(self):
 #         self._login()
-#         self.testapp.get('/dashboard/0/lastname/asc')  # To set cookie with order and orderby
-#         resdel = self.testapp.get('/delete/3')  # Delete member with lastname AAASomeLastnäme
+#         self.testapp.get('/dashboard/0/lastname/asc')
+#         # To set cookie with order and orderby
+#         resdel = self.testapp.get('/delete/3')
+#         # Delete member with lastname AAASomeLastnäme
 #         resdel = resdel.follow()
 #         resdel = resdel.follow()
 #         pq = self._get_pyquery(resdel.body)
@@ -822,524 +949,3 @@ class BackendFunctionalTests(ZaboTestBase):
 #         pdf = self.testapp.get('/re_C3S_SCE_AFM_ABCDEFGFOO.pdf')
 #         # now use existing code
 #         self.failUnless(80000 < len(pdf.body) < 150000)  # check pdf size
-
-
-# class FunctionalTests2(unittest.TestCase):
-#     """
-#     these tests are functional tests to check functionality of the whole app
-#     (i.e. integration tests)
-#     they also serve to get coverage for 'main'
-#     """
-#     def setUp(self):
-#         self.config = testing.setUp()
-#         self.config.include('pyramid_mailer.testing')
-#         try:
-#             DBSession.close()
-#             DBSession.remove()
-#             #print("removed old DBSession ===================================")
-#         except:
-#             #print("no DBSession to remove ==================================")
-#             pass
-#         #try:
-#         #    os.remove('test_webtest_functional.db')
-#         #    #print "deleted old test database"
-#         #except:
-#         #    pass
-#         #    #print "never mind"
-
-#         my_settings = {
-#             #'sqlalchemy.url': 'sqlite:///test_webtest_functional.db',
-#             'sqlalchemy.url': 'sqlite:///:memory:',
-#             'available_languages': 'da de en es fr',
-#             'c3smembership.mailaddr': 'c@c3s.cc'}
-#         engine = engine_from_config(my_settings)
-#         DBSession.configure(bind=engine)
-#         self.session = DBSession  # ()
-
-#         Base.metadata.create_all(engine)
-#         # dummy database entries for testing
-#         with transaction.manager:
-#             abo1 = Abo(  # german
-#                 name=u'SomeFirstnäme',
-#                 email=u'some@shri.de',
-#                 amount=u'23',
-#             )
-#             DBSession.add(abo1)
-#             DBSession.flush()
-
-#         from zabo import main
-#         app = main({}, **my_settings)
-
-#         from webtest import TestApp
-#         self.testapp = TestApp(app)
-
-#     def tearDown(self):
-#         self.session.close()
-#         self.session.remove()
-#         #os.remove('test_webtest_functional.db')
-
-#     def test_base_template(self):
-#         """load the front page, check string exists"""
-#         res = self.testapp.get('/', status=200)
-#         self.failUnless('Cultural Commons Collecting Society' in res.body)
-#         self.failUnless(
-#             'Copyright 2013, C3S SCE' in res.body)
-
-#     # def test_faq_template(self):
-#     #     """load the FAQ page, check string exists"""
-#     #     res = self.testapp.get('/faq', status=200)
-#     #     self.failUnless('FAQ' in res.body)
-#     #     self.failUnless(
-#     #         'Copyright 2013, OpenMusicContest.org e.V.' in res.body)
-
-#     def test_lang_en_LOCALE(self):
-#         """load the front page, forced to english (default pyramid way),
-#         check english string exists"""
-#         res = self.testapp.reset()  # delete cookie
-#         res = self.testapp.get('/?_LOCALE_=en', status=200)
-#         self.failUnless(
-#             'Application for Membership of ' in res.body)
-
-#     def test_lang_en(self):
-#         """load the front page, set to english (w/ pretty query string),
-#         check english string exists"""
-#         res = self.testapp.reset()  # delete cookie
-#         res = self.testapp.get('/?en', status=302)
-#         self.failUnless('The resource was found at' in res.body)
-#         # we are being redirected...
-#         res1 = res.follow()
-#         self.failUnless(
-#             'Application for Membership of ' in res1.body)
-
-# # so let's test the app's obedience to the language requested by the browser
-# # i.e. will it respond to http header Accept-Language?
-
-#     # def test_accept_language_header_da(self):
-#     #     """check the http 'Accept-Language' header obedience: danish
-#     #     load the front page, check danish string exists"""
-#     #     res = self.testapp.reset()  # delete cookie
-#     #     res = self.testapp.get('/', status=200,
-#     #                            headers={
-#     #             'Accept-Language': 'da'})
-#     #     #print(res.body) #  if you want to see the pages source
-#     #     self.failUnless(
-#     #         '<input type="hidden" name="_LOCALE_" value="da"' in res.body)
-
-#     def test_accept_language_header_de_DE(self):
-#         """check the http 'Accept-Language' header obedience: german
-#         load the front page, check german string exists"""
-#         res = self.testapp.reset()  # delete cookie
-#         res = self.testapp.get(
-#             '/', status=200,
-#             headers={
-#                 'Accept-Language': 'de-DE'})
-#         #print(res.body) #  if you want to see the pages source
-#         self.failUnless(
-#             'Mitgliedschaftsantrag für die' in res.body)
-#         self.failUnless(
-#             '<input type="hidden" name="_LOCALE_" value="de"' in res.body)
-
-#     def test_accept_language_header_en(self):
-#         """check the http 'Accept-Language' header obedience: english
-#         load the front page, check english string exists"""
-#         res = self.testapp.reset()  # delete cookie
-#         res = self.testapp.get(
-#             '/', status=200,
-#             headers={
-#                 'Accept-Language': 'en'})
-#         #print(res.body) #  if you want to see the pages source
-#         self.failUnless(
-#             "I want to become"
-#             in res.body)
-
-#     # def test_accept_language_header_es(self):
-#     #     """check the http 'Accept-Language' header obedience: spanish
-#     #     load the front page, check spanish string exists"""
-#     #     res = self.testapp.reset()  # delete cookie
-#     #     res = self.testapp.get('/', status=200,
-#     #                            headers={
-#     #             'Accept-Language': 'es'})
-#     #     #print(res.body) #  if you want to see the pages source
-#     #     self.failUnless(
-#     #         'Luego de enviar el siguiente formulario,' in res.body)
-
-#     # def test_accept_language_header_fr(self):
-#     #     """check the http 'Accept-Language' header obedience: french
-#     #     load the front page, check french string exists"""
-#     #     res = self.testapp.reset()  # delete cookie
-#     #     res = self.testapp.get('/', status=200,
-#     #                            headers={
-#     #             'Accept-Language': 'fr'})
-#     #     #print(res.body) #  if you want to see the pages source
-#     #     self.failUnless(
-#     #         'En envoyant un courriel à data@c3s.cc vous pouvez' in res.body)
-
-#     def test_no_cookies(self):
-#         """load the front page, check default english string exists"""
-#         res = self.testapp.reset()  # delete cookie
-#         res = self.testapp.get(
-#             '/', status=200,
-#             headers={
-#                 'Accept-Language': 'af, cn'})  # ask for missing languages
-#         #print res.body
-#         self.failUnless('Application for Membership' in res.body)
-
-# #############################################################################
-# # check for validation stuff
-
-#     def test_form_lang_en_non_validating(self):
-#         """load the join form, check english string exists"""
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/?_LOCALE_=en', status=200)
-#         form = res.form
-#         #print(form.fields)
-#         #print(form.fields.values())
-#         form['firstname'] = 'John'
-#         #form['address2'] = 'some address part'
-#         res2 = form.submit('submit')
-#         self.failUnless(
-#             'There was a problem with your submission' in res2.body)
-
-#     def test_form_lang_de(self):
-#         """load the join form, check german string exists"""
-#         res = self.testapp.get('/?de', status=302)
-#         #print(res)
-#         self.failUnless('The resource was found at' in res.body)
-#         # we are being redirected...
-#         res2 = res.follow()
-#         #print(res2)
-#         # test for german translation of template text (lingua_xml)
-#         self.failUnless(
-#             'Mitgliedschaftsantrag für die' in res2.body)
-#         # test for german translation of form field label (lingua_python)
-#         self.failUnless('Vorname' in res2.body)
-
-#     def test_form_lang_LOCALE_de(self):
-#         """load the join form in german, check german string exists
-#         this time forcing german locale the pyramid way
-#         """
-#         res = self.testapp.get('/?_LOCALE_=de', status=200)
-#         # test for german translation of template text (lingua_xml)
-#         self.failUnless(
-#             'Mitgliedschaftsantrag für die' in res.body)
-#         # test for german translation of form field label (lingua_python)
-#         self.failUnless('Vorname' in res.body)
-
-# ###########################################################################
-# # checking the success page that sends out email with verification link
-
-#     def test_check_email_en_wo_context(self):
-#         """try to access the 'check_email' page and be redirected
-#         check english string exists"""
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/check_email?en', status=302)
-#         self.failUnless('The resource was found at' in res.body)
-#         # we are being redirected...
-#         res1 = res.follow()
-#         #print(res1)
-#         self.failUnless(
-#             'Application for Membership of ' in str(
-#                 res1.body),
-#             'expected string was not found in web UI')
-
-# ###########################################################################
-# # checking the view that gets code and mail, asks for a password
-#     def test_verify_email_en_w_bad_code(self):
-#         """load the page in english,
-#         be redirected to the form (data is missing)
-#         check english string exists"""
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/verify/foo@shri.de/ABCD-----', status=200)
-#         self.failUnless(
-#             'Password' in res.body)
-#         form = res.form
-#         form['password'] = 'foobar'
-#         res2 = form.submit('submit')
-#         self.failUnless(
-#             'Password' in res2.body)
-
-#     def test_verify_email_en_w_good_code(self):
-#         """
-#         """
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/verify/some@shri.de/ABCDEFGFOO', status=200)
-#         self.failUnless(
-#             'Password' in res.body)
-#         form = res.form
-#         form['password'] = 'arandompassword'
-#         res2 = form.submit('submit')
-#         # print res2.body
-#         self.failUnless(
-#             'C3S_SCE_AFM_SomeFirstn_meSomeLastn_me.pdf' in res2.body)
-# #        import pdb
-# #        pdb.set_trace()
-#             #'Your Email has been confirmed, Firstnäme Lastname!' in res.body)
-#         #res2 = self.testapp.get(
-#         #    '/C3S_SCE_AFM_Firstn_meLastname.pdf', status=200)
-#         #self.failUnless(len(res2.body) > 70000)
-
-# ###########################################################################
-# # checking the disclaimer
-
-#     # def test_disclaimer_en(self):
-#     #     """load the disclaimer in english (via query_string),
-#     #     check english string exists"""
-#     #     res = self.testapp.reset()
-#     #     res = self.testapp.get('/disclaimer?en', status=302)
-#     #     self.failUnless('The resource was found at' in res.body)
-#     #     # we are being redirected...
-#     #     res1 = res.follow()
-#     #     self.failUnless(
-#     #         'you may order your data to be deleted at any time' in str(
-#     #             res1.body),
-#     #         'expected string was not found in web UI')
-
-#     # def test_disclaimer_de(self):
-#     #     """load the disclaimer in german (via query_string),
-#     #     check german string exists"""
-#     #     res = self.testapp.reset()
-#     #     res = self.testapp.get('/disclaimer?de', status=302)
-#     #     self.failUnless('The resource was found at' in res.body)
-#     #     # we are being redirected...
-#     #     res1 = res.follow()
-#     #     self.failUnless(
-#     #         'Datenschutzerkl' in str(
-#     #             res1.body),
-#     #         'expected string was not found in web UI')
-
-#     # def test_disclaimer_LOCALE_en(self):
-#     #     """load the disclaimer in english, check english string exists"""
-#     #     res = self.testapp.reset()
-#     #     res = self.testapp.get('/disclaimer?_LOCALE_=en', status=200)
-#     #     self.failUnless(
-#     #         'you may order your data to be deleted at any time' in str(
-#     #             res.body),
-#     #         'expected string was not found in web UI')
-
-#     # def test_disclaimer_LOCALE_de(self):
-#     #     """load the disclaimer in german, check german string exists"""
-#     #     res = self.testapp.reset()
-#     #     res = self.testapp.get('/disclaimer?_LOCALE_=de', status=200)
-#     #     self.failUnless(
-#     #         'Datenschutzerkl' in str(
-#     #             res.body),
-#     #         'expected string was not found in web UI')
-
-#     def test_success_wo_data_en(self):
-#         """load the success page in english (via query_string),
-#         check for redirection and english string exists"""
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/success?en', status=302)
-#         self.failUnless('The resource was found at' in res.body)
-#         # we are being redirected...
-#         res1 = res.follow()
-#         #print(res1)
-#         self.failUnless(  # check text on page redirected to
-#             'Please fill out the form' in str(
-#                 res1.body),
-#             'expected string was not found in web UI')
-
-#     def test_success_pdf_wo_data_en(self):
-#         """
-#         try to load a pdf (which must fail because the form was not used)
-#         check for redirection to the form and test string exists
-#         """
-#         res = self.testapp.reset()
-#         res = self.testapp.get(
-#             '/C3S_SCE_AFM_ThefirstnameThelastname.pdf',
-#             status=302)
-#         self.failUnless('The resource was found at' in res.body)
-#         # we are being redirected...
-#         res1 = res.follow()
-#         #print(res1)
-#         self.failUnless(  # check text on page redirected to
-#             'Please fill out the form' in str(
-#                 res1.body),
-#             'expected string was not found in web UI')
-
-#     # def test_success_w_data(self):
-#     #     """
-#     #     load the form, fill the form, (in one go via POST request)
-#     #     check for redirection, push button to send verification mail,
-#     #     check for 'mail was sent' message
-#     #     """
-#     #     res = self.testapp.reset()
-#     #     res = self.testapp.get('/', status=200)
-#     #     form = res.form
-#     #     print '*'*80
-#     #     print '*'*80
-#     #     print '*'*80
-#     #     print form.fields
-#     #     res = self.testapp.post(
-#     #         '/',  # where the form is served
-#     #         {
-#     #             'submit': True,
-#     #             'firstname': 'TheFirstName',
-#     #             'lastname': 'TheLastName',
-#     #             'date_of_birth': '1987-06-05',
-#     #             'address1': 'addr one',
-#     #             'address2': 'addr two',
-#     #             'postcode': '98765 xyz',
-#     #             'city': 'Devilstown',
-#     #             'country': 'AF',
-#     #             'email': 'email@example.com',
-#     #             'password': 'berries',
-#     #             'num_shares': '42',
-#     #             '_LOCALE_': 'en',
-#     #             #'activity': set(
-#     #             #    [
-#     #             #        u'composer',
-#     #             #        #u'dj'
-#     #             #    ]
-#     #             #),
-#     #             'invest_member': 'yes',
-#     #             'member_of_colsoc': 'yes',
-#     #             'name_of_colsoc': 'schmoo',
-#     #             #'opt_band': 'yes band',
-#     #             #'opt_URL': 'http://yes.url',
-#     #             #'noticed_dataProtection': 'yes'
-#     #             'num_shares': '23',
-#     #         },
-#     #         #status=302,  # expect redirection to success page
-#     #         status=200,  # expect redirection to success page
-#     #     )
-
-#     #     print(res.body)
-#     #     self.failUnless('The resource was found at' in res.body)
-#     #     # we are being redirected...
-#     #     res2 = res.follow()
-#     #     self.failUnless('Success' in res2.body)
-#     #     #print("vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv")
-#     #     #print res2.body
-#     #     #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-#     #     self.failUnless('TheFirstName' in res2.body)
-#     #     self.failUnless('TheLastName' in res2.body)
-#     #     self.failUnless('1987-06-05' in res2.body)
-#     #     self.failUnless('addr one' in res2.body)
-#     #     self.failUnless('addr two' in res2.body)
-#     #     self.failUnless('Devilstown' in res2.body)
-#     #     self.failUnless('email@example.com' in res2.body)
-#     #     self.failUnless('schmoo' in res2.body)
-
-#     #     # now check for the "mail was sent" confirmation
-#     #     res3 = self.testapp.post(
-#     #         '/check_email',
-#     #         {
-#     #             'submit': True,
-#     #             'value': "send mail"
-#     #         }
-#     #     )
-#     #     #print(res3)
-#     #     self.failUnless(
-#     #         'An email was sent, TheFirstName TheLastName!' in res3.body)
-
-# #     def test_success_and_reedit(self):
-# #         """
-# #         submit form, check success, re-edit: are the values pre-filled?
-# #         """
-# #         res = self.testapp.reset()
-# #         res = self.testapp.get('/', status=200)
-# #         form = res.form
-# #         form['firstname'] = 'TheFirstNäme'
-# #         form['lastname'] = 'TheLastNäme'
-# #         form['address1'] = 'addr one'
-# #         form['address2'] = 'addr two'
-# #         res2 = form.submit('submit')
-# #         print res2.body
-# # #                'submit': True,
-# # #                'date_of_birth': '1987-06-05',
-# # #                'address2': 'addr two',
-# # #                'postcode': '98765 xyz',
-# # #                'city': 'Devilstöwn',
-# # #                'email': 'email@example.com',
-# # #                'num_shares': '23',
-# # #                '_LOCALE_': 'en',
-# # #                #'activity': set(
-# #                 #    [
-# #                 #        'composer',
-# #                 #        #u'dj'
-# #                 #    ]
-# #                 #),
-# # #                'country': 'AF',
-# # #                'membership_type': 'investing',
-# # #                'member_of_colsoc': 'yes',
-# # #                'name_of_colsoc': 'schmoö',
-# #                 #'opt_band': 'yes bänd',
-# #                 #'opt_URL': 'http://yes.url',
-# #                 #'noticed_dataProtection': 'yes'
-
-# # #            },
-# # #            status=302,  # expect redirection to success page
-# # #        )
-
-#     #    print(res.body)
-#     #     self.failUnless('The resource was found at' in res.body)
-#     #     # we are being redirected...
-#     #     res2 = res.follow()
-#     #     self.failUnless('Success' in res2.body)
-#     #     #print("success page: \n%s") % res2.body
-#     #     #self.failUnless(u'TheFirstNäme' in (res2.body))
-
-#     #     # go back to the form and check the pre-filled values
-#     #     res3 = self.testapp.get('/')
-#     #     #print(res3.body)
-#     #     #print("edit form: \n%s") % res3.body
-#     #     self.failUnless('TheFirstNäme' in res3.body)
-#     #     form = res3.form
-#     #     self.failUnless(form['firstname'].value == u'TheFirstNäme')
-
-#     def test_email_confirmation(self):
-#         """
-#         test email confirmation form and PDF download
-#         with a known login/dataset
-#         """
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/verify/some@shri.de/ABCDEFGFOO', status=200)
-#         # print(res.body)
-#         form = res.form
-#         form['password'] = 'arandompassword'
-#         res2 = form.submit('submit')
-#         #print res2.body
-#         self.failUnless("Load your PDF..." in res2.body)
-#         self.failUnless(
-#             "/C3S_SCE_AFM_SomeFirstn_meSomeLastn_me.pdf" in res2.body)
-#         # load the PDF, check size
-#         res3 = self.testapp.get(
-#             '/C3S_SCE_AFM_SomeFirstn_meSomeLastn_me.pdf',
-#             status=200
-#         )
-#         #print("length of result: %s") % len(res3.body)
-#         #print("body result: %s") % (res3.body)  # ouch, PDF content!
-#         self.failUnless(80000 < len(res3.body) < 150000)  # check pdf size
-
-#     def test_email_confirmation_wrong_mail(self):
-#         """
-#         test email confirmation with a wrong email
-#         """
-#         res = self.testapp.reset()
-#         res = self.testapp.get(
-#             '/verify/NOTEXISTS@shri.de/ABCDEFGHIJ', status=200)
-#         #print(res.body)
-#         self.failUnless("Please enter your password." in res.body)
-#         # XXX this test shows nothing interesting
-
-#     def test_email_confirmation_wrong_code(self):
-#         """
-#         test email confirmation with a wrong code
-#         """
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/verify/foo@shri.de/WRONGCODE', status=200)
-#         #print(res.body)
-#         self.failUnless("Please enter your password." in res.body)
-
-#     def test_success_check_email(self):
-#         """
-#         test "check email" success page with wrong data:
-#         this should redirect to the form.
-#         """
-#         res = self.testapp.reset()
-#         res = self.testapp.get('/check_email', status=302)
-
-#         res2 = res.follow()
-#         self.failUnless("Please fill out the form" in res2.body)
-

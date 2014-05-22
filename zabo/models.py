@@ -47,7 +47,7 @@ def make_random_string():
             # create a new one, if the new one already exists in the database
             #print("generating new code")
             randomstring = make_random_string()  # pragma: no cover
-    the_string = u'' + randomstring + u'Abo'
+    the_string = u'' + randomstring + u'SustainC3S'
     #print "return that string: {}".format(the_string)
     return the_string
 
@@ -193,6 +193,7 @@ class Abo(Base):
     name = Column(Unicode)
     email = Column(Unicode)
     amount = Column(Integer)
+    locale = Column(Unicode)
     date_issued = Column(Date)  # started when?
     # computed info
     email_is_confirmed = Column(Boolean, default=False)  # once 1st paym. rec'd

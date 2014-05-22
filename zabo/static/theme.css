@@ -3,7 +3,52 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   color: #ffffff;
-  background: #21AA58;
+  background: #4dae33;
+  /* background-color: #4dae33; */
+  /*
+  background-image:url(/static/c3s-hintergrund.png); background-repeat:no-repeat;
+  background-position:top center;
+  background-position-x: 50%;
+  background-position-y: 0%;
+  background-attachment:scroll;
+  */
+}
+#container {
+    //min-height: 80%;
+    margin-top: 50px;
+    margin-left: 50px;
+    margin-right: 50px;
+    /* background-color: #4dae33; */
+}
+#middle {
+    border-top: 0;
+    border-bottom: 0;
+    /* background-color: #4dae33; */
+    /*margin-left:20px; */
+}
+#footer {
+    margin-top:50px;
+    height:100px;
+    background-color: #4dae33;
+}
+.footer {
+    height:auto;
+    /* margin:40px 40px 20px 250px; */
+    width:auto;
+    /* border:1px solid red; */
+    /* background-color:#ff00ff; */
+    /* background-image:url(/static/g8532.png); background-repeat:no-repeat; */
+    /* background-position:center center; */
+    /* background-attachment:scroll; */
+    vertical-align: bottom!important;
+}
+.btn-xlarge {
+    padding: 18px 28px;
+    font-size: 22px; //change this to your desired size
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
 }
 h1,
 h2,

@@ -15,8 +15,9 @@ from ..models import (
     DBSession,
     Staff,
     Group,
+    Abo,
     Base,
-    )
+)
 
 
 def usage(argv):
@@ -44,3 +45,17 @@ def main(argv=sys.argv):
             password=u'berries',)
         rut.groups = [staff_group]
         DBSession.add(rut)
+        first_abo = Abo(
+            name=u'test',
+            email=u'test@shri.de',
+            amount=42,
+        )
+        first_abo.locale = 'de'
+        DBSession.add(first_abo)
+        second_abo = Abo(
+            name=u'test2',
+            email=u'test2@shri.de',
+            amount=23,
+        )
+        second_abo.locale = 'en'
+        DBSession.add(second_abo)

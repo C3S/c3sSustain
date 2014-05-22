@@ -34,13 +34,17 @@ def main(global_config, **settings):
         session_factory=session_factory,
         root_factory=Root,
     )
-    #import pdb
-    #pdb.set_trace()
     # mend request factory
     config.set_request_factory(RequestWithUserAttribute)
     # includes (other packages)
     config.include('pyramid_chameleon')  # templating
     config.include('pyramid_mailer')  # mailings
+    # i18n stuff
+    config.add_translation_dirs(
+        'colander:locale/',
+        'deform:locale/',  # copy deform.po and .mo to locale/de/LC_MESSAGES/
+        'zabo:locale/')
+    # static views
     config.add_static_view('static_deform', 'deform:static')
     config.add_static_view('static', 'static', cache_max_age=3600)
     # subscribers
@@ -49,9 +53,11 @@ def main(global_config, **settings):
         'pyramid.events.BeforeRender')
     config.add_subscriber('zabo.subscribers.add_backend_template',
                           'pyramid.events.BeforeRender')
+    config.add_subscriber('zabo.subscribers.add_locale_to_cookie',
+                          'pyramid.events.NewRequest')
     # routes
     config.add_route('home', '/')
-    config.add_route('zform', '/abo')
+    config.add_route('zform', '/now')
     config.add_route('confirm_data', '/confirm')
     config.add_route('sendmail', '/done')
     # admin/accounting

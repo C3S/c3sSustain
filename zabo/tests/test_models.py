@@ -27,9 +27,9 @@ class ZaboModelTestBase(unittest.TestCase):
         self.config.include('pyramid_mailer.testing')
         try:
             DBSession.remove()
-            #print("removing old DBSession ===================================")
+            #print("removing old DBSession =======================")
         except:
-            #print("no DBSession to remove ===================================")
+            #print("no DBSession to remove =======================")
             pass
         #engine = create_engine('sqlite:///test_models.db')
         engine = create_engine('sqlite:///:memory:')
@@ -68,7 +68,7 @@ class ZaboModelTestBase(unittest.TestCase):
         return Group
 
     def _make_group(self,
-                   name=u'my_group'):
+                    name=u'my_group'):
         return self._getGroupClass()(
             name,
         )
@@ -96,12 +96,21 @@ class ZaboModelTests(ZaboModelTestBase):
     def setUp(self):
         super(ZaboModelTests, self).setUp()
         with transaction.manager:
-            abo1 = Abo(  # german
+            abo1 = Abo(  # englisch
                 name=u'SomeFirstnäme',
                 email=u'some@shri.de',
                 amount=u"12345",
             )
+            abo1.locale = u'en'
+            abo1.refcode = u'ABCXXSustainC3S'
             DBSession.add(abo1)
+            abo2 = Abo(  # german
+                name=u'SomeOthernäme',
+                email=u'someother@shri.de',
+                amount=u"12345",
+            )
+            abo2.locale = u'de'
+            DBSession.add(abo2)
             DBSession.flush()
 
     def test_constructor(self):
@@ -111,23 +120,16 @@ class ZaboModelTests(ZaboModelTestBase):
         self.assertEqual(instance.email, u'some1@shri.de', "No match!")
         self.assertEqual(instance.amount, u'23', "No match!")
 
-    # def test_get_by_code(self):
-    #     instance = self._makeOne()
-    #     #session = DBSession()
-    #     self.session.add(instance)
-    #     myClass = self._getTargetClass()
-    #     instance_from_DB = myClass.get_by_code(u'ABCDEFGHIK')
-    #     #self.session.commit()
-    #     #self.session.remove()
-    #     #print instance_from_DB.email
-    #     if DEBUG:
-    #         print "myClass: " + str(myClass)
-    #         #        print "str(myUserClass.get_by_username('SomeUsername')): "
-    #         # + str(myUserClass.get_by_username('SomeUsername'))
-    #         #        foo = myUserClass.get_by_username(instance.username)
-    #         #        print "test_get_by_username: type(foo): " + str(type(foo))
-    #     self.assertEqual(instance.name, u'SomeNäme')
-    #     self.assertEqual(instance.email, u'some1@shri.de')
+    def test_get_by_code(self):
+        instance = self._makeOne()
+        instance.refcode = u'ABCDESustainC3S'
+        self.session.add(instance)
+        myClass = self._getTargetClass()
+        instance_from_DB = myClass.get_by_code(u'ABCDESustainC3S')
+        self.assertEqual(instance.name, u'SomeNäme')
+        self.assertEqual(instance.email, u'some1@shri.de')
+        self.assertEqual(instance.name, instance_from_DB.name)
+        self.assertEqual(instance.email, instance_from_DB.email)
 
     def test_get_by_id(self):
         instance = self._makeOne()
@@ -199,7 +201,20 @@ class ZaboModelTests(ZaboModelTestBase):
 
         result1 = myClass.abo_listing("id")
         self.failUnless(result1[0].name == u"SomeFirstnäme")
-        self.failUnless(result1[1].name == u"SomeNäme")
+        self.failUnless(result1[1].name == u"SomeOthernäme")
+        self.failUnless(result1[2].name == u"SomeNäme")
+
+    def test_get_matching_refcodes(self):
+        instance = self._makeOne()
+        self.session.add(instance)
+        instance2 = self._makeAnotherOne()
+        self.session.add(instance2)
+        myClass = self._getTargetClass()
+
+        result = myClass.get_matching_refcodes('ABC')
+        #print result
+        self.assertEquals(result, [u'ABCXXSustainC3S'])
+        #assert(False is True)
 
     # def test_member_listing_exception(self):
     #     instance = self._makeOne()

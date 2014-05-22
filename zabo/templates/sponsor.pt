@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="${request.locale_name}">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="pyramid web application">
-    <meta name="author" content="Pylons Project">
-    <link rel="shortcut icon" href="${request.static_url('zabo:static/pyramid-16x16.png')}">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="pyramid web application"/>
+    <meta name="author" content="Pylons Project"/>
+    <link rel="shortcut icon" href="${request.static_url('zabo:static/pyramid-16x16.png')}"/>
 
     <title>Zuschuss Abo Formular</title>
 
@@ -15,7 +15,7 @@
           rel="stylesheet" type="text/css" media="screen" charset="utf-8" />
 
     <!-- Custom styles for this template -->
-    <link href="${request.static_url('zabo:static/theme.css')}" rel="stylesheet">
+    <link href="${request.static_url('zabo:static/theme.css')}" rel="stylesheet"/>
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -33,7 +33,7 @@
           <div class="foo">
             this link code is invalid.<br />
             <a href="${request.route_url('sponsor_image',linkcode='invalid')}">
-              <img src="${request.route_url('sponsor_image',linkcode='invalid')}">
+              <img src="${request.route_url('sponsor_image',linkcode='invalid')}"/>
             </a>
           </div>
         </div>
@@ -44,7 +44,7 @@
             Name: ${abo.name}<br />
             Betrag: ${abo.amount}<br />
             <a href="${request.route_url('sponsor_image',linkcode=abo.linkcode)}">
-              <img src="${request.route_url('sponsor_image',linkcode=abo.linkcode)}">
+              <img src="${request.route_url('sponsor_image',linkcode=abo.linkcode)}"/>
             </a>
           </div>
         </div>

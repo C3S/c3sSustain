@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="${request.locale_name}"
+      metal:use-macro="base_bootstrap"
+      i18n:domain="zabo">
+  <tal:block metal:fill-slot="middle">
+    <h1>Sustain C3S</h1>
+    <div style="text-align:right;">
+      <p i18n:translate="">Choose Language:
+        <a href="/?en"><img src="${request.static_url('zabo:static/images/en.png')}" title="English"
+			    alt="switch to English language" /></a>
+        <a href="/?de"><img src="${request.static_url('zabo:static/images/de.png')}" title="Deutsch"
+			    alt="auf deutsche Sprache umschalten" /></a>
+      </p>
+    </div>
+    <div class="row">
+      <p class="alert alert-success">
+        <span i18n:translate="">
+          There are plenty of things we have to set up in order to be able to begin to operate as a collecting society. This is why we must bear the current expenses that can not be covered by the development project support from the State of North Rhine-Westphalia. The project is being financed by the money from the crowdfunding campaign (Startnext), from the flash-funding, and from the State of North Rhine-Westphalia. If you want to know more, please read</span>
+        <a i18n:translate=""
+           href="${financial_situation_blog}">
+          our detailed information on the financial situation of the C3S</a>.
+      </p>
+      <p i18n:translate="">
+        We need a regular income. If you want to support the C3S, we would be grateful for a monthly contribution. You can register on this page fur such an additional, regular support.
+      </p>
+      <p i18n:translate="">
+        Your contribution is essential for us. A regular income enables the financial security of the C3S until it can begin to operate as a collecting society.
+      </p>
+      <p i18n:translate="">
+        Of course you are free to set the amount of your monthly contribution.
+        As a reward, you (or your company) will not only receive good Karma, but also a symbol of our gratitude: If you support us with €5 or more per month, you can make yourself visible as a financial supporter of the C3S by integrating a little banner, for example on your website, your blog, or your signature in your favorite music online forum.
+      </p>
+      <p i18n:translate="">
+        Here you can see the suppport levels
+        and the respective graphics you can implement on your website.
+      </p>
+      <div class="row">
+        <div class="col-md-3 col-xs-6 col-lg-2">
+          <div class="alert alert-success">
+            Note <strong>Do</strong>:<br />
+            5&euro;<br />
+            <img src="${request.static_url('zabo:static/sustain/Stufe1.jpg')}"
+                 class="img-responsive"
+                 style="width:200px"/>
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-6 col-lg-2">
+          <div class="alert alert-success">
+            Note <strong>Re</strong>:<br />
+            6-14&euro;<br />
+            <img src="${request.static_url('zabo:static/sustain/Stufe2.jpg')}"
+                 class="img-responsive"
+                 style="width:200px"/>
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-6 col-lg-2">
+          <div class="alert alert-success">
+            Note <strong>Mi</strong>:<br />
+            15-29&euro;<br />
+            <img src="${request.static_url('zabo:static/sustain/Stufe3.jpg')}"
+                 class="img-responsive"
+                 style="width:200px"/>
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-6 col-lg-2">
+          <div class="alert alert-success">
+            Note <strong>Fa</strong>:<br />
+            30-49&euro;<br />
+            <img src="${request.static_url('zabo:static/sustain/Stufe4.jpg')}"
+                 class="img-responsive"
+                 style="width:200px"/>
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-6 col-lg-2">
+          <div class="alert alert-success">
+            Note <strong>So</strong>:<br />
+            50-99&euro;<br />
+            <img src="${request.static_url('zabo:static/sustain/Stufe5.jpg')}"
+                 class="img-responsive"
+                 style="width:200px"/>
+          </div>
+        </div>
+        <div class="col-md-3 col-xs-6 col-lg-2">
+          <div class="alert alert-success">
+            Note <strong>La</strong>:<br />
+            100-...&euro; <br />
+            <img src="${request.static_url('zabo:static/sustain/Stufe6.jpg')}"
+                 class="img-responsive"
+                 style="width:200px"/>
+          </div>
+        </div>
+      </div>            
+      <p i18n:translate="">
+        Have you decided to support us with a monthly contribution? Please click here:
+      </p>
+      <p>
+        <a href="${request.route_url('zform')}"
+           class="btn btn-xlarge btn-primary">
+          I sustain C3S
+        </a>
+      </p>
+    </div>
+  </tal:block>
+</html>
