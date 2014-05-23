@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabo 0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-23 01:03+0200\n"
-"PO-Revision-Date: 2014-05-23 01:03+0100\n"
+"POT-Creation-Date: 2014-05-23 13:52+0200\n"
+"PO-Revision-Date: 2014-05-23 13:58+0100\n"
 "Last-Translator: Christoph Scheid <christoph.scheid@c3s.cc>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -42,7 +42,7 @@ msgstr "Zurücksetzen"
 msgid "C3S ZuschussAbo: deine Links!"
 msgstr "Sustain C3S: here are your links!"
 
-#: zabo/views.py:98 zabo/views.py:196
+#: zabo/views.py:98 zabo/views.py:197
 msgid "Name or pseudonym"
 msgstr "Name oder Pseudonym"
 
@@ -54,44 +54,44 @@ msgstr "Email"
 msgid "Amount (in full Euro)"
 msgstr "Betrag (ganze Euro)"
 
-#: zabo/views.py:112
+#: zabo/views.py:113
 msgid "at least 5 Euro, otherwise the cost of transfer are too high."
 msgstr ""
 "mindestens fünf Euro, sonst werden die Überweisungskosten zu hoch (36ct.)"
 
-#: zabo/views.py:121
+#: zabo/views.py:122
 msgid "Check details"
 msgstr "Eingaben Überprüfen"
 
-#: zabo/views.py:122
+#: zabo/views.py:123
 msgid "Why sustain C3S?"
 msgstr "Warum C3S unterstützen?"
 
-#: zabo/views.py:148
+#: zabo/views.py:149
 msgid "Please note: There were errors, please check the form below."
 msgstr "Achtung! Es gab Probleme mit den Eingaben. Bitte unten überprüfen."
 
-#: zabo/views.py:201
+#: zabo/views.py:202
 msgid "Email"
 msgstr "E-Mail"
 
-#: zabo/views.py:210
+#: zabo/views.py:211
 msgid "Amount"
 msgstr "Betrag"
 
-#: zabo/views.py:217
+#: zabo/views.py:218
 msgid "Confirm Details"
 msgstr "Eingaben bestätigen"
 
-#: zabo/views.py:218
+#: zabo/views.py:219
 msgid "Change Details"
 msgstr "Eingaben ändern"
 
-#: zabo/views.py:261
+#: zabo/views.py:270
 msgid "I sustain C3S: awaiting your contribution"
 msgstr "I sustain C3S: Warten auf die Überweisung"
 
-#: zabo/views.py:277
+#: zabo/views.py:286
 msgid "[C3S_ZA] neues abo?"
 msgstr "[Sustain] neu"
 
@@ -103,34 +103,50 @@ msgstr "Kontakt &amp; Impressum"
 msgid "Your Data We Received"
 msgstr "Diese Daten haben wir erhalten"
 
-#: zabo/templates/confirm_data.pt:10 zabo/templates/zform.pt:8
+#: zabo/templates/confirm_data.pt:10
+msgid "The respective Banner (Preview)"
+msgstr "Die entsprechende Banner-Grafik (Vorschau)"
+
+#: zabo/templates/confirm_data.pt:12
+msgid ""
+"This is the banner according to the contribution you have chosen. You can "
+"change details to choose a different one."
+msgstr ""
+"Diese Banner-Grafik wurde aufgrund der Höhe deine Unterstützung ausgewählt. "
+"Du kannst die Eingaben verändern um ein anderes auszuwählen."
+
+#: zabo/templates/confirm_data.pt:20 zabo/templates/zform.pt:8
 msgid ""
 "You may change or terminate your contribution at any time and without notice."
 msgstr "Du kannst jederzeit und ohne Frist den Betrag ändern oder stornieren. "
 
-#: zabo/templates/confirm_data.pt:13 zabo/templates/zform.pt:12
+#: zabo/templates/confirm_data.pt:23 zabo/templates/zform.pt:12
 msgid "Disclaimer (Data Protection)"
 msgstr "Datenschutzerklärung der C3S"
 
-#: zabo/templates/confirm_data.pt:14 zabo/templates/zform.pt:13
+#: zabo/templates/confirm_data.pt:24 zabo/templates/zform.pt:13
 msgid ""
 "We will store and use the information you provide for administrative "
-"purposes to verify your contribution and in order to show your support."
+"purposes, to verify your contribution and in order to show your support. "
+"Your E-Mail address will not be published, but only used to send you "
+"information and updates concerning your contribution."
 msgstr ""
 "Wir speichern die übermittelten Daten für Verwaltungszwecke, um Deine "
 "Unterstützung nachvollziehen zu können und um den Status der Unterstützung "
-"öffentlich nachprüfbar anzeigen zu können."
+"öffentlich nachprüfbar anzeigen zu können. Die Email-Adresse wird nicht "
+"veröffentlicht, sondern nur für Benachrichtigungen in Bezug auf Deine "
+"Unterstützung genutzt."
 
-#: zabo/templates/confirm_data.pt:18 zabo/templates/zform.pt:18
+#: zabo/templates/confirm_data.pt:30 zabo/templates/zform.pt:19
 msgid "Responsible authority: C3S SCE mbH, Heyestraße 194, 40625 Düsseldorf."
 msgstr ""
 "Verantwortliche Stelle ist die C3S SCE, Heyestraße 194, 40625 Düsseldorf."
 
-#: zabo/templates/landing_page.pt:8
-msgid "Choose Language: <dynamic element> <dynamic element>"
-msgstr "Sprache wählen:"
+#: zabo/templates/landing_page.pt:9
+msgid "Choose Language:"
+msgstr "Sprache auswählen:"
 
-#: zabo/templates/landing_page.pt:17
+#: zabo/templates/landing_page.pt:23
 msgid ""
 "There are plenty of things we have to set up in order to be able to begin to "
 "operate as a collecting society. This is why we must bear the current "
@@ -146,11 +162,11 @@ msgstr ""
 "Crowdfundings (Startnext, Flashfunding) und vom Land Nordrhein-Westfalen. "
 "Wenn Du es genauer wissen willst, lies Dir "
 
-#: zabo/templates/landing_page.pt:19
+#: zabo/templates/landing_page.pt:25
 msgid "our detailed information on the financial situation of the C3S"
 msgstr "unsere Details zur finanziellen Situation der C3S durch"
 
-#: zabo/templates/landing_page.pt:23
+#: zabo/templates/landing_page.pt:29
 msgid ""
 "We need a regular income. If you want to support the C3S, we would be "
 "grateful for a monthly contribution. You can register on this page fur such "
@@ -161,7 +177,7 @@ msgstr ""
 "solche, zusätzliche und regelmäßige Unterstützung kannst Du Dich auf dieser "
 "Seite anmelden. "
 
-#: zabo/templates/landing_page.pt:26
+#: zabo/templates/landing_page.pt:32
 msgid ""
 "Your contribution is essential for us. A regular income enables the "
 "financial security of the C3S until it can begin to operate as a collecting "
@@ -170,7 +186,7 @@ msgstr ""
 "Dein Beitrag ist sehr wichtig für uns: Mit regelmäßigen Einnahmen können wir "
 "uns bis zu unserer Arbeit  als Verwertungsgesellschaft finanziell absichern."
 
-#: zabo/templates/landing_page.pt:29
+#: zabo/templates/landing_page.pt:35
 msgid ""
 "Of course you are free to set the amount of your monthly contribution. As a "
 "reward, you (or your company) will not only receive good Karma, but also a "
@@ -186,7 +202,7 @@ msgstr ""
 "Banner im Netz zur Schau stellen, z.B. auf Deiner Homepage oder Deinem Blog "
 "oder Deiner Signatur in Deinem Lieblings-Musik-Forum."
 
-#: zabo/templates/landing_page.pt:33
+#: zabo/templates/landing_page.pt:39
 msgid ""
 "Here you can see the suppport levels and the respective graphics you can "
 "implement on your website."
@@ -194,7 +210,7 @@ msgstr ""
 "Hier findest Du die Stufen der Unterstützung und die jeweiligen Grafiken, "
 "die Du in deine Website einbinden kannst."
 
-#: zabo/templates/landing_page.pt:93
+#: zabo/templates/landing_page.pt:99
 msgid ""
 "Have you decided to support us with a monthly contribution? Please click "
 "here:"
