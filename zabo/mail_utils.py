@@ -5,10 +5,12 @@ def mailbody_transfer_directions(new_abo):
     if new_abo.locale == 'de':
         body_lines = u'''Hallo ''' + new_abo.name + u''' !
 
-Wir haben Deine Abonnementsdaten erhalten.
+Wir haben die Daten zu Deinem regelmäßigen Unterstützungsbeitrag erhalten.
 
-Bitte richte nun einen monatlichen Dauerauftrag ein
-über ''' + new_abo.amount + u''' Euro auf unser Konto bei der
+Bitte richte nun einen monatlichen Dauerauftrag über den folgenden, von Dir
+gewählten Betrag ein: ''' + new_abo.amount + u'''
+
+Die Zahlung sollte auf unser Konto bei der Ethikbank eingehen:
 
 EthikBank eG
 Kontoinhaber: C3S SCE
@@ -18,11 +20,13 @@ IBAN:\t DE79830944950003264378
 Betrag (€): ''' + str(new_abo.amount) + u'''
 Verwendungszweck: ''' + new_abo.refcode + u'''
 
-Bitte achte auf den Verwendungszweck, damit wir die Zahlung zweifelsfrei
-Dir zuordnen können.
+Bitte achte darauf den Verwendungszweck exakt zu übernehmen,
+damit wir Dir die Zahlung eindeutig zuordnen können.
 
-Sobald wir den Eingang der Zahlung bemerken, schicken wir Dir eine Email mit
-Links zu deiner Grafik und der Bestätigungsseite, die dein Engagement zeigt.
+Sobald wir den Eingang der Zahlung bestätigen können, schicken wir Dir eine
+Email mit den Grafik-Links zum Einbinden des Banners im Netz für die Anzeige
+auf z.B. einer Website und einen Link zu Deiner persönlichen Beitrags-Status-
+Seite, die dein Engagement bestätigt.
 
 
 Bis bald!
@@ -75,15 +79,15 @@ def mailbody_transfer_received(_abo, _url):
 
 Wir haben Deine Überweisung erhalten. Dankeschön!
 
-Du kannst folgenden link benutzen, um dein Banner zu laden,
-damit du es auf deiner Website hosten kannst:
+Du kannst folgenden Link benutzen, um Deine Grafik zu laden,
+und auf deiner Website zu hosten:
 
-  {}/sponsor/{}.png
+:  {}/sponsor/{}.png
 
 Du kannst auf die folgende Seite verlinken,
 die öffentlich (!) den aktuellen Status deines Abos anzeigt:
 
-  {}/sponsor/{}.html
+S  {}/sponsor/{}.html
 
 Bis bald!
 
