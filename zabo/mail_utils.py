@@ -82,12 +82,12 @@ Wir haben Deine Überweisung erhalten. Dankeschön!
 Du kannst folgenden Link benutzen, um Deine Grafik zu laden,
 und auf deiner Website zu hosten:
 
-:  {}/sponsor/{}.png
+  {}/sponsor/{}.png
 
 Du kannst auf die folgende Seite verlinken,
 die öffentlich (!) den aktuellen Status deines Abos anzeigt:
 
-S  {}/sponsor/{}.html
+  {}/sponsor/{}.html
 
 Bis bald!
 
