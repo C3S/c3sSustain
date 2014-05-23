@@ -7,6 +7,16 @@
     <div class="alert alert-success">
       <div tal:content="structure confirmform" />
     </div>
+    <h3 i18n:translate="">The respective Banner (Preview)</h3>
+    <div class="alert alert-success">
+      <p i18n:translate="">
+        This is the banner according to the contribution you have chosen.
+        You can change details to choose a different one.
+      </p>
+      <img src="${banner_url}"
+           class="img-responsive"
+           alt="banner">
+    </div>
     <p i18n:translate="">
       You may change or terminate your contribution at any time and without notice.
     </p>

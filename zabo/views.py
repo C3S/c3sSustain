@@ -109,6 +109,7 @@ def zform_view(request):
             title=_(u'Amount (in full Euro)'),
             validator=Range(
                 min=5,
+                max=10000,
                 min_err=_(u'at least 5 Euro, '
                           u'otherwise the cost of transfer are too high.'),
             )
@@ -219,9 +220,17 @@ def confirm_abo(request):
             ],
             renderer=zpt_renderer,
         )
+        #print "the amount: {}".format(appstruct['amount'])
+        from .models import sponsorshipGrade
+        grade = sponsorshipGrade(appstruct['amount'])
+        banner_string = 'zabo:static/sustain/Stufe' + grade + '.jpg'
+        banner_url = request.static_url(banner_string)
 
-        return {'confirmform': confirmform.render(
-                appstruct=appstruct)}
+        return {
+            'confirmform': confirmform.render(
+                appstruct=appstruct),
+            'banner_url': banner_url,
+        }
 
     # 'else': send user to the form
     return HTTPFound(location=request.route_url('zform'))

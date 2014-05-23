@@ -182,6 +182,36 @@ class Staff(Base):
         return DBSession.query(cls).all()
 
 
+def sponsorshipGrade(amount):
+    '''
+    get sponsorship_grade for a particular amount
+    '''
+    #if int(amount) >= 250:  # 250 ..
+    #    print "more than 250"
+    #    return '7'
+    #el
+    if int(amount) >= 100:  # 100 - 249
+        print "more than 100"
+        return '6'
+    elif int(amount) >= 50:  # 50 - 99
+        print "more than 50"
+        return '5'
+    elif int(amount) >= 30:  # 30 - 49
+        print "more than 30"
+        return '4'
+    elif int(amount) >= 15:  # 15 - 29
+        print "more than 15"
+        return '3'
+    elif int(amount) >= 6:  # 6 - 14
+        print "more than 6"
+        return '2'
+    elif int(amount) == 5:  # 5
+        print "exactely 5"
+        return '1'
+    else:
+        return '0'
+
+
 class Abo(Base):
     '''
     when supporters use the form, their submissions are saved here
@@ -225,10 +255,11 @@ class Abo(Base):
         '''
         get sponsorship_grade for a particular abo
         '''
-        if int(self.amount) >= 250:  # 250 ..
-            print "more than 250"
-            return '7'
-        elif int(self.amount) >= 100:  # 100 - 249
+        #if int(self.amount) >= 250:  # 250 ..
+        #    print "more than 250"
+        #    return '7'
+        #el
+        if int(self.amount) >= 100:  # 100 - 249
             print "more than 100"
             return '6'
         elif int(self.amount) >= 50:  # 50 - 99
