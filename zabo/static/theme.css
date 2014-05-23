@@ -28,19 +28,10 @@ body {
 }
 #footer {
     margin-top:50px;
+    margin-left:30px;
+    margin-right:30px;
     height:100px;
     background-color: #4dae33;
-}
-.footer {
-    height:auto;
-    /* margin:40px 40px 20px 250px; */
-    width:auto;
-    /* border:1px solid red; */
-    /* background-color:#ff00ff; */
-    /* background-image:url(/static/g8532.png); background-repeat:no-repeat; */
-    /* background-position:center center; */
-    /* background-attachment:scroll; */
-    vertical-align: bottom!important;
 }
 .btn-xlarge {
     padding: 18px 28px;
