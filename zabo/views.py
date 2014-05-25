@@ -77,7 +77,7 @@ def landing_page_view(request):
     else:
         locale_name = get_locale_name(request)
 
-    financial_blog_url = 'https://www.c3s.cc/news/our-dear-financial-situation'
+    financial_blog_url = request.registry.settings['financial_blog_url']
     # debug: check locale
     #print "the locale: {}".format(get_locale_name(request))
 
@@ -110,8 +110,8 @@ def zform_view(request):
             validator=Range(
                 min=5,
                 max=10000,
-                min_err=_(u'at least 5 Euro, '
-                          u'otherwise the cost of transfer are too high.'),
+                min_err=_(
+                    u'at least 5 Euro, or the cost of transfer is too high.'),
             )
         )
     schema = AboForm()
@@ -120,7 +120,7 @@ def zform_view(request):
         schema,
         buttons=[
             deform.Button('submit', _(u'Check details')),
-            deform.Button('why', _(u'Why sustain C3S?')),
+            deform.Button('why', _(u'Back')),
         ],
         renderer=zpt_renderer,
     )
@@ -283,7 +283,7 @@ def sendmail_view(request):
         #print request.registry.settings
         # send mail to accountants
         acc_mail = Message(
-            subject=_('[C3S_ZA] neues abo?'),
+            subject=_(u'[SUSTAIN] neu'),
             sender=request.registry.settings['mail_from'],
             recipients=[
                 request.registry.settings['mailrecipient']],

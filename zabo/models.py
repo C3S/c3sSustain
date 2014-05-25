@@ -392,3 +392,29 @@ class Abo(Base):
         return sum_total
 
 Index('abo_index', Abo.name, mysql_length=255)
+
+
+class Transfers(Base):
+    '''
+    the transfers received are saved here
+    '''
+    __tablename__ = 'transfers'
+    __table_args__ = ({'sqlite_autoincrement': True})
+    id = Column(Integer, primary_key=True)
+    abo_id = Column(Unicode)  # whose money?
+    date = Column(DateTime)  # received when?
+    amount = Column(Integer)  # how much?
+
+    def __init__(self, abo_id, date, amount):
+        self.abo_id = abo_id
+        self.date = date
+        self.amount = amount
+
+    @classmethod
+    def get_sum_transfers_by_aboid(cls, abo_id):
+        transfers = DBSession.query(cls).all()
+        sum = 0
+        for transfer in transfers:
+            if transfer.abo_id == abo_id:
+                sum += transfer.amount
+        return sum

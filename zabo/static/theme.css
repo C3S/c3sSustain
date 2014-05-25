@@ -4,18 +4,25 @@ body {
   font-weight: 300;
   color: #ffffff;
   background: #4dae33;
-  /* background-color: #4dae33; */
-  /*
-  background-image:url(/static/c3s-hintergrund.png); background-repeat:no-repeat;
-  background-position:top center;
-  background-position-x: 50%;
-  background-position-y: 0%;
-  background-attachment:scroll;
-  */
+/*  background-image:url(/static/C3S-Head-mittext.png);
+  max-width:1000px;
+  width:500px;height:200px;
+  background-repeat:no-repeat;
+*/  /* background-position:top center; */
+  /* background-position-x: -10%; */
+  /* background-position-y: 0%; */
+/*  background-attachment:scroll; */
+  /* background-size: 100% auto; */
+
+}
+.container {
+    max-width: 1170px !important;
+
 }
 #container {
-    //min-height: 80%;
-    margin-top: 50px;
+    align: center;
+    /* min-height: 80%; */
+/*    margin-top: 170px;  */
     margin-left: 50px;
     margin-right: 50px;
     /* background-color: #4dae33; */
@@ -35,7 +42,7 @@ body {
 }
 .btn-xlarge {
     padding: 18px 28px;
-    font-size: 22px; //change this to your desired size
+    font-size: 24px;
     line-height: normal;
     -webkit-border-radius: 8px;
        -moz-border-radius: 8px;

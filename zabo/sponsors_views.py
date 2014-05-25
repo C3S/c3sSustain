@@ -16,15 +16,18 @@ def sponsor_view(request):
     #print "this is sponsor view"
     _code = request.matchdict['linkcode']
     _abo = Abo.get_by_linkcode(_code)
+    financial_blog_url = request.registry.settings['financial_blog_url']
     if isinstance(_abo, NoneType):
         print "=== not found in DB"
         request.session.flash('this linkcode is invalid', 'messages')
         return {
+            'financial_situation_blog': financial_blog_url,
             'invalid': True,
             'message': "this linkcode is invalid.",
             'abo': None
         }
     return {
+        'financial_situation_blog': financial_blog_url,
         'invalid': False,
         'message': '',
         'abo': _abo

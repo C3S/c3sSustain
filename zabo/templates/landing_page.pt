@@ -7,21 +7,23 @@
     <div style="text-align:right;">
       <div class="row">
         <p i18n:translate=""
-              class="col-xs-8 col-sm-10">Choose Language:</p>
+              class="col-xs-9">Choose Language:</p>
         <a href="/?en"><img src="${request.static_url('zabo:static/images/en.png')}"
                             title="English"
-                            class="col-xs-2 col-sm-1 img-responsive"
-			    alt="switch to English language" /></a>
+                            class="col-xs-1"
+			    alt="switch to English language"
+                            style="width:50% auto;max-width:70px;min-width:60px;"/></a>
         <a href="/?de"><img src="${request.static_url('zabo:static/images/de.png')}"
                             title="Deutsch"
-                            class="col-xs-2 col-sm-1 img-responsive"
-			    alt="auf deutsche Sprache umschalten" /></a>
+                            class="col-xs-1"
+			    alt="auf deutsche Sprache umschalten"
+                            style="width:50% auto;max-width:70px;min-width:60px;"/></a>
       </div>
     </div>
     <div class="row">
       <p class="alert alert-success">
         <span i18n:translate="">
-          There are plenty of things we have to set up in order to be able to begin to operate as a collecting society. This is why we must bear the current expenses that can not be covered by the development project support from the State of North Rhine-Westphalia. The project is being financed by the money from the crowdfunding campaign (Startnext), from the flash-funding, and from the State of North Rhine-Westphalia. If you want to know more, please read</span>
+          There are plenty of things we have to set up in order to be able to begin to operate as a collecting society. This is why we must bear the current expenses that can not be covered by the development project support from the State of North Rhine-Westphalia. If you want to know more, please read</span>
         <a i18n:translate=""
            href="${financial_situation_blog}">
           our detailed information on the financial situation of the C3S</a>.
@@ -30,63 +32,63 @@
         We need a regular income. If you want to support the C3S, we would be grateful for a monthly contribution. You can register on this page fur such an additional, regular support.
       </p>
       <p i18n:translate="">
-        Your contribution is essential for us. A regular income enables the financial security of the C3S until it can begin to operate as a collecting society.
+        Your contribution is essential for us. A regular income enables us to develop C3S until it can begin to operate as a collecting society.
       </p>
       <p i18n:translate="">
         Of course you are free to set the amount of your monthly contribution.
-        As a reward, you (or your company) will not only receive good Karma, but also a symbol of our gratitude: If you support us with €5 or more per month, you can make yourself visible as a financial supporter of the C3S by integrating a little banner, for example on your website, your blog, or your signature in your favorite music online forum.
+        As a reward, you (or your company) will not only receive good Karma, but also a symbol of our gratitude: If you support us with €5 or more per month, you can make yourself visible as a financial supporter of the C3S by integrating a little banner, for example on your website, your blog, or your signature in your favorite music online forum. You can link this banner to a dedicated page on our web presence and have your contribution confirmed.
       </p>
       <p i18n:translate="">
         Here you can see the suppport levels
         and the respective graphics you can implement on your website.
       </p>
       <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
           <div class="alert alert-success">
             <h2>Note <strong>Do</strong>:</h2>
-            <h3>5&euro;</h3>
+            <h3>5 &euro;</h3>
             <img src="${request.static_url('zabo:static/sustain/Stufe1.jpg')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
           <div class="alert alert-success">
             <h2>Note <strong>Re</strong>:</h2>
-            <h3>6-14&euro;</h3>
+            <h3>6-14 &euro;</h3>
             <img src="${request.static_url('zabo:static/sustain/Stufe2.jpg')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
           <div class="alert alert-success">
             <h2>Note <strong>Mi</strong>:</h2>
-            <h3>15-29&euro;</h3>
+            <h3>15-29 &euro;</h3>
             <img src="${request.static_url('zabo:static/sustain/Stufe3.jpg')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
           <div class="alert alert-success">
             <h2>Note <strong>Fa</strong>:</h2>
-            <h3>30-49&euro;</h3>
+            <h3>30-49 &euro;</h3>
             <img src="${request.static_url('zabo:static/sustain/Stufe4.jpg')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
           <div class="alert alert-success">
             <h2>Note <strong>So</strong>:</h2>
-            <h3>50-99&euro;</h3>
+            <h3>50-99 &euro;</h3>
             <img src="${request.static_url('zabo:static/sustain/Stufe5.jpg')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-2">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
           <div class="alert alert-success">
             <h2>Note <strong>La</strong>:</h2>
             <h3>100-...&euro; </h3>

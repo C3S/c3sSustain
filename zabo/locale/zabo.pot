@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabo 0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-23 13:52+0200\n"
+"POT-Creation-Date: 2014-05-26 01:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgid "Amount (in full Euro)"
 msgstr ""
 
 #: zabo/views.py:113
-msgid "at least 5 Euro, otherwise the cost of transfer are too high."
+msgid "at least 5 Euro, or the cost of transfer is too high."
 msgstr ""
 
 #: zabo/views.py:122
@@ -62,7 +62,7 @@ msgid "Check details"
 msgstr ""
 
 #: zabo/views.py:123
-msgid "Why sustain C3S?"
+msgid "Back"
 msgstr ""
 
 #: zabo/views.py:149
@@ -90,10 +90,10 @@ msgid "I sustain C3S: awaiting your contribution"
 msgstr ""
 
 #: zabo/views.py:286
-msgid "[C3S_ZA] neues abo?"
+msgid "[SUSTAIN] neu"
 msgstr ""
 
-#: zabo/templates/base_bootstrap.pt:56
+#: zabo/templates/base_bootstrap.pt:75
 msgid "Contact &amp; Imprint"
 msgstr ""
 
@@ -111,23 +111,23 @@ msgid ""
 "change details to choose a different one."
 msgstr ""
 
-#: zabo/templates/confirm_data.pt:20 zabo/templates/zform.pt:8
+#: zabo/templates/confirm_data.pt:20 zabo/templates/zform.pt:22
 msgid "You may change or terminate your contribution at any time and without notice."
 msgstr ""
 
-#: zabo/templates/confirm_data.pt:23 zabo/templates/zform.pt:12
+#: zabo/templates/confirm_data.pt:23 zabo/templates/zform.pt:26
 msgid "Disclaimer (Data Protection)"
 msgstr ""
 
-#: zabo/templates/confirm_data.pt:24 zabo/templates/zform.pt:13
+#: zabo/templates/confirm_data.pt:24 zabo/templates/zform.pt:27
 msgid ""
-"We will store and use the information you provide for administrative "
-"purposes, to verify your contribution and in order to show your support. Your"
-" E-Mail address will not be published, but only used to send you information "
-"and updates concerning your contribution."
+"We will store and use the information you provide for administrative purposes"
+" only, to verify your contribution and in order to show your support. Your "
+"E-Mail address will not be published or given to third parties, but only used"
+" to send you information and updates concerning your contribution."
 msgstr ""
 
-#: zabo/templates/confirm_data.pt:30 zabo/templates/zform.pt:19
+#: zabo/templates/confirm_data.pt:30 zabo/templates/zform.pt:33
 msgid "Responsible authority: C3S SCE mbH, Heyestraße 194, 40625 Düsseldorf."
 msgstr ""
 
@@ -135,50 +135,50 @@ msgstr ""
 msgid "Choose Language:"
 msgstr ""
 
-#: zabo/templates/landing_page.pt:23
+#: zabo/templates/landing_page.pt:25
 msgid ""
 "There are plenty of things we have to set up in order to be able to begin to "
 "operate as a collecting society. This is why we must bear the current "
 "expenses that can not be covered by the development project support from the "
-"State of North Rhine-Westphalia. The project is being financed by the money "
-"from the crowdfunding campaign (Startnext), from the flash-funding, and from "
-"the State of North Rhine-Westphalia. If you want to know more, please read"
+"State of North Rhine-Westphalia. If you want to know more, please read"
 msgstr ""
 
-#: zabo/templates/landing_page.pt:25
+#: zabo/templates/landing_page.pt:27 zabo/templates/sponsor.pt:17
+#: zabo/templates/sponsor.pt:45
 msgid "our detailed information on the financial situation of the C3S"
 msgstr ""
 
-#: zabo/templates/landing_page.pt:29
+#: zabo/templates/landing_page.pt:31
 msgid ""
 "We need a regular income. If you want to support the C3S, we would be "
 "grateful for a monthly contribution. You can register on this page fur such "
 "an additional, regular support."
 msgstr ""
 
-#: zabo/templates/landing_page.pt:32
+#: zabo/templates/landing_page.pt:34
 msgid ""
-"Your contribution is essential for us. A regular income enables the financial"
-" security of the C3S until it can begin to operate as a collecting society."
+"Your contribution is essential for us. A regular income enables us to develop"
+" C3S until it can begin to operate as a collecting society."
 msgstr ""
 
-#: zabo/templates/landing_page.pt:35
+#: zabo/templates/landing_page.pt:37
 msgid ""
 "Of course you are free to set the amount of your monthly contribution. As a "
 "reward, you (or your company) will not only receive good Karma, but also a "
 "symbol of our gratitude: If you support us with €5 or more per month, you can"
 " make yourself visible as a financial supporter of the C3S by integrating a "
 "little banner, for example on your website, your blog, or your signature in "
-"your favorite music online forum."
+"your favorite music online forum. You can link this banner to a dedicated "
+"page on our web presence and have your contribution confirmed."
 msgstr ""
 
-#: zabo/templates/landing_page.pt:39
+#: zabo/templates/landing_page.pt:41
 msgid ""
 "Here you can see the suppport levels and the respective graphics you can "
 "implement on your website."
 msgstr ""
 
-#: zabo/templates/landing_page.pt:99
+#: zabo/templates/landing_page.pt:101
 msgid "Have you decided to support us with a monthly contribution? Please click here:"
 msgstr ""
 
@@ -214,7 +214,62 @@ msgstr ""
 msgid "If you happen not to receive an Email, please contact info@c3s.cc."
 msgstr ""
 
+#: zabo/templates/sponsor.pt:9
+msgid "This link code is invalid."
+msgstr ""
+
+#: zabo/templates/sponsor.pt:15 zabo/templates/sponsor.pt:43
+msgid ""
+"You found a page showing the ongoing contribution of one of C3S' supporters. "
+"They help us to bear current expenses that can not be covered by the "
+"development project support from the State of North Rhine-Westphalia. If you "
+"want to know more, please read"
+msgstr ""
+
+#: zabo/templates/sponsor.pt:20 zabo/templates/sponsor.pt:48
+msgid "If you are convinced of the importance of our work, become a supporter, too!"
+msgstr ""
+
+#: zabo/templates/sponsor.pt:35
+msgid "Contribution by"
+msgstr ""
+
 #: zabo/templates/zform.pt:6
+msgid "I sustain C3S -- This is how it works:"
+msgstr ""
+
+#: zabo/templates/zform.pt:8
+msgid ""
+"You fill out the simple form on this page. We have reduced the form details "
+"to a minimum, so we can assign and book incoming payments correctly and "
+"contact you if we need to."
+msgstr ""
+
+#: zabo/templates/zform.pt:10
+msgid ""
+"We will send you an email with our account details and a specific reference "
+"code."
+msgstr ""
+
+#: zabo/templates/zform.pt:12
+msgid "You set up a monthly standing order for the amount you select."
+msgstr ""
+
+#: zabo/templates/zform.pt:14
+msgid ""
+"When we receive your first transfer we send another email with your banner "
+"and your individual weblink to the page where we confirm your contribution. "
+"Whether you publish that banner and/or link is up to you."
+msgstr ""
+
+#: zabo/templates/zform.pt:17
+msgid ""
+"You are in control: No need for a direct debiting scheme. You may change or "
+"cancel your contribution at any time. And whether your contribution becomes "
+"publicly visible -- You decide!"
+msgstr ""
+
+#: zabo/templates/zform.pt:20
 msgid "Your Details"
 msgstr ""
 

@@ -8,7 +8,7 @@ def mailbody_transfer_directions(new_abo):
 Wir haben die Daten zu Deinem regelmäßigen Unterstützungsbeitrag erhalten.
 
 Bitte richte nun einen monatlichen Dauerauftrag über den folgenden, von Dir
-gewählten Betrag ein: ''' + new_abo.amount + u'''
+gewählten Betrag ein: ''' + new_abo.amount + u''' €
 
 Die Zahlung sollte auf unser Konto bei der Ethikbank eingehen:
 
@@ -24,7 +24,7 @@ Bitte achte darauf den Verwendungszweck exakt zu übernehmen,
 damit wir Dir die Zahlung eindeutig zuordnen können.
 
 Sobald wir den Eingang der Zahlung bestätigen können, schicken wir Dir eine
-Email mit den Grafik-Links zum Einbinden des Banners im Netz für die Anzeige
+E-Mail mit den Grafik-Links zum Einbinden des Banners im Netz für die Anzeige
 auf z.B. einer Website und einen Link zu Deiner persönlichen Beitrags-Status-
 Seite, die dein Engagement bestätigt.
 
@@ -39,7 +39,7 @@ Dein C3S-Team
 we have received your details on your regular contribution.
 
 Please set up a monthly standing order for the following amount you have
-selected: ''' + str(new_abo.amount) + u''' Euro
+selected: ''' + str(new_abo.amount) + u''' €
 
 The payment shall be made to our account at the EthikBank:
 
@@ -80,7 +80,7 @@ def mailbody_transfer_received(_abo, _url):
 Wir haben Deine Überweisung erhalten. Dankeschön!
 
 Du kannst folgenden Link benutzen, um Deine Grafik zu laden,
-und auf deiner Website zu hosten:
+und auf Deiner Website zu hosten:
 
   {}/sponsor/{}.png
 

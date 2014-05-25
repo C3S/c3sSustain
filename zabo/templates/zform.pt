@@ -3,6 +3,20 @@
       metal:use-macro="base_bootstrap"
       i18n:domain="zabo">
   <tal:block metal:fill-slot="middle">
+    <h3 i18n:translate="">I sustain C3S -- This is how it works:</h3>
+    <ol>
+      <li i18n:translate="">
+        You fill out the simple form on this page. We have reduced the form details to a minimum, so we can assign and book incoming payments correctly and contact you if we need to.</li>
+      <li i18n:translate="">
+        We will send you an email with our account details and a specific reference code.</li>
+      <li i18n:translate="">
+        You set up a monthly standing order for the amount you select.</li>
+      <li i18n:translate="">
+        When we receive your first transfer we send another email with your banner and your individual weblink to the page where we confirm your contribution. Whether you publish that banner and/or link is up to you.</li>
+    </ol>
+    <p i18n:translate="">
+      You are in control: No need for a direct debiting scheme. You may change or cancel your contribution at any time. And whether your contribution becomes publicly visible -- You decide!
+    </p>
     <h3 i18n:translate="">Your Details</h3>
     <div tal:content="structure zform" />
     <p i18n:translate="">
@@ -11,9 +25,9 @@
     </p>
     <h3 i18n:translate="">Disclaimer (Data Protection)</h3>
     <p i18n:translate="">
-      We will store and use the information you provide for administrative purposes,
+      We will store and use the information you provide for administrative purposes only,
       to verify your contribution and in order to show your support.
-      Your E-Mail address will not be published, but only used to send you
+      Your E-Mail address will not be published or given to third parties, but only used to send you
       information and updates concerning your contribution.
     </p>
     <p i18n:translate="">

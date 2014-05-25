@@ -11,7 +11,23 @@
           <img src="${request.route_url('sponsor_image',linkcode='invalid')}"/>
 	</a>
       </div>
+      <p>
+        <span i18n:translate="">
+          You found a page showing the ongoing contribution of one of C3S' supporters. They help us to bear current expenses that can not be covered by the development project support from the State of North Rhine-Westphalia. If you want to know more, please read</span>
+        <a i18n:translate="" href="${financial_situation_blog}">
+          our detailed information on the financial situation of the C3S</a>.
+      </p>
+      <p i18n:translate="">
+        If you are convinced of the importance of our work, become a supporter, too!
+      </p>
+      <p>
+        <a href="${request.route_url('zform')}"
+           class="btn btn-xlarge btn-primary">
+          I sustain C3S
+        </a>
+      </p>
     </div>
+    <!--! ################################################################ -->
     <div class="row"
          tal:condition="not invalid and abo">
       <div class="alert alert-success">
@@ -23,6 +39,21 @@
           <img src="${request.route_url('sponsor_image',linkcode=abo.linkcode)}"/>
         </a>
       </div>
+      <p>
+        <span i18n:translate="">
+          You found a page showing the ongoing contribution of one of C3S' supporters. They help us to bear current expenses that can not be covered by the development project support from the State of North Rhine-Westphalia. If you want to know more, please read</span>
+        <a i18n:translate="" href="${financial_situation_blog}">
+          our detailed information on the financial situation of the C3S</a>.
+      </p>
+      <p i18n:translate="">
+        If you are convinced of the importance of our work, become a supporter, too!
+      </p>
+      <p>
+        <a href="${request.route_url('zform')}"
+           class="btn btn-xlarge btn-primary">
+          I sustain C3S
+        </a>
+      </p>
     </div>
   </tal:block>
 </html>

@@ -29,12 +29,30 @@
     <![endif]-->
   </head>
   <body>
+    <div class="container">
     <div id="container">
       <div id="top">
         <div class="top align-center">
-          <div><img src="${request.static_url('zabo:static/logo_horiz_w700.png')}"
-		    alt="Cultural Commons Collecting Society (C3S)"
-                    class="img-responsive"/></div>
+          <div class="visible-xs visible-sm">
+            <img src="${request.static_url('zabo:static/C3S-Head-mittext_cut.png')}"
+		 alt="Cultural Commons Collecting Society (C3S)"
+                 style="position:relative; left:-20px;"
+                 class="img-responsive"
+                />
+          </div>
+          <div class="hidden-xs hidden-sm">
+            <img src="${request.static_url('zabo:static/C3S-Head-mittext.png')}"
+		 alt="Cultural Commons Collecting Society (C3S)"
+                 class="img-responsive"
+                 style="position:relative; left:-70px"
+                />
+          </div>
+          <!--!
+              <div class="visible-xs">vis-xs</div>
+              <div class="visible-sm">vis-sm</div>
+              <div class="visible-md">vis-md</div>
+              <div class="visible-lg">vis-lg</div>
+          -->
         </div>
       </div>
       <div id="middle">
@@ -49,6 +67,7 @@
 	  <tal:block metal:define-slot="bottom"></tal:block>
       </div>
       </div>
+    </div>
     </div>
     <div id="footer">
       <div class="footer alert alert-success">
