@@ -72,7 +72,7 @@
     <div id="footer">
       <div class="footer alert alert-success">
         &copy; Copyright 2014, C3S SCE.
-        <a href="https://www.c3s.cc/kontakt/"
+        <a tal:attributes="href python:'https://www.c3s.cc/kontakt/' if request.locale_name == 'de' else 'https://www.c3s.cc/en/contact-us/'"
            i18n:translate="">Contact &amp; Imprint</a>
       </div>
     </div>
