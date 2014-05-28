@@ -9,6 +9,7 @@
 	<h1 i18n:translate="">This link code is invalid.</h1>
 	<a href="${request.route_url('sponsor_image',linkcode='invalid')}">
           <img tal:define="LOCALE python: '?_LOCALE_=de' if request.locale_name == 'de' else '?_LOCALE_=en'"
+	       class="img-responsive"
                src="${request.route_url('sponsor_image',linkcode='invalid') + LOCALE}"/>
 	</a>
       </div>
@@ -37,7 +38,8 @@
           ${abo.name}
 	</h1>
 	<a href="${request.route_url('sponsor_image',linkcode=abo.linkcode)}">
-          <img src="${request.route_url('sponsor_image',linkcode=abo.linkcode)}"/>
+          <img src="${request.route_url('sponsor_image',linkcode=abo.linkcode)}"
+	       class="img-responsive"/>
         </a>
       </div>
       <p>
