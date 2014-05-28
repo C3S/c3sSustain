@@ -18,7 +18,7 @@ def sponsor_view(request):
     _abo = Abo.get_by_linkcode(_code)
     financial_blog_url = request.registry.settings['financial_blog_url']
     if isinstance(_abo, NoneType):
-        print "=== not found in DB"
+        #print "=== not found in DB"
         request.session.flash('this linkcode is invalid', 'messages')
         return {
             'financial_situation_blog': financial_blog_url,
@@ -44,7 +44,10 @@ def sponsor_image(request):
     _code = request.matchdict['linkcode']
     _abo = Abo.get_by_linkcode(_code)
     if isinstance(_abo, NoneType):
-        the_url = 'zabo:static/badge_invalid.png'
+        if request.locale_name == 'de':
+            the_url = 'zabo:static/ungueltig.png'
+        else:
+            the_url = 'zabo:static/invalid.png'
         return HTTPFound(request.static_url(the_url))
     #the_url = 'zabo:static/badge' + _abo.get_sponsorshipGrade() + '.png'
     #return HTTPFound(request.static_url(the_url))
