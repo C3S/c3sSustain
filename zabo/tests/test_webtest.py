@@ -47,6 +47,7 @@ class ZaboTestBase(unittest.TestCase):
             'mail_from': 'noreply@c3s.cc',
             'pyramid.includes': 'pyramid_mailer.testing',
             'the_url': 'http://example.com',
+            'financial_blog_url': 'https://www.c3s.cc/ueber-c3s/finanzierung/',
         }
         engine = engine_from_config(my_settings)
         DBSession.configure(bind=engine)
@@ -403,17 +404,18 @@ class SponsorsFunctionalTests(ZaboTestBase):
         '''
         res = self.testapp.get('/sponsor/NONEXISTING.html', status=200)
         #print res.body
-        self.failUnless('this link code is invalid.' in res.body)
+        self.failUnless('This link code is invalid.' in res.body)
 
     def test_image_nonexisting_linkcode(self):
         '''
         try to load a apage with a non-existing linkcode
         '''
         res = self.testapp.get('/sponsor/NONEXISTING.png', status=302)
-        self.failUnless('badge_invalid.png' in res.location)
+        #print res.location
+        self.failUnless('invalid.png' in res.location)
         res2 = res.follow()
         #print len(res2.body)
-        self.failUnless(4000 < len(res2.body) < 4500)  # check size of image
+        self.failUnless(85000 < len(res2.body) < 90000)  # check size of image
 
     def test_html_and_png(self):
         """
@@ -437,8 +439,8 @@ class SponsorsFunctionalTests(ZaboTestBase):
         '''
         image = self.testapp.get(
             '/sponsor/{}.png'.format(new_abo.linkcode), status=200)
-        print len(image.body)
-        self.failUnless(4000 < len(image.body) < 5000)  # check size of image
+        #print len(image.body)
+        self.failUnless(85000 < len(image.body) < 90000)  # check size of image
         '''
         html page
         '''
@@ -448,8 +450,8 @@ class SponsorsFunctionalTests(ZaboTestBase):
         # link to image must be in html
         self.failUnless(
             '/sponsor/{}.png'.format(new_abo.linkcode) in html.body)
-        self.failUnless(
-            'Name: {}<br />'.format(new_abo.name) in html.body)
+        self.failUnless('<small>Contribution by</small>' in html.body)
+        self.failUnless(new_abo.name in html.body)
 
         #self.failUnless('no no no' in res.body)
 
@@ -538,9 +540,9 @@ class BackendFunctionalTests(ZaboTestBase):
         #print type(abo2.name)
         _url = '/sponsor/' + abo2.linkcode + '.html'
         _html = self.testapp.get(_url, status=200)
-        #print _html.body
-        #self.assertTrue(abo2.name in _html.body)
-        self.assertTrue(str(abo2.amount) in _html.body)
+        print _html.body
+        self.assertTrue(abo2.name.encode('utf8') in _html.body)
+        #self.assertTrue(str(abo2.amount) in _html.body)
         self.assertTrue(str(abo2.linkcode) in _html.body)
 
         '''
@@ -553,8 +555,8 @@ class BackendFunctionalTests(ZaboTestBase):
         self.assertEquals(abo2.payment_received, False)
         _html = self.testapp.get(_url, status=200)
         #print _html.body
-        #self.assertTrue(abo2.name in _html.body)
-        self.assertTrue(str(abo2.amount) in _html.body)
+        self.assertTrue(abo2.name.encode('utf8') in _html.body)
+        #self.assertTrue(str(abo2.amount) in _html.body)
         self.assertTrue(str(abo2.linkcode) in _html.body)
 
         #self.failUnless('this wont exist' in res3.body)

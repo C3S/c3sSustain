@@ -255,13 +255,13 @@ class TestSponsorshipGrade(ZaboModelTestBase):
         instance = self._makeAnotherOne(name=u"STU", email=u'6@shri.de',
                                         amount=112)
         self.session.add(instance)
-        instance = self._makeAnotherOne(name=u"VWX", email=u'7@shri.de',
-                                        amount=370)
-        self.session.add(instance)
+        #instance = self._makeAnotherOne(name=u"VWX", email=u'7@shri.de',
+        #                                amount=370)
+        #self.session.add(instance)
         self.session.flush()
 
     def test_get_sponsorshipGrade(self):
-        for i in range(1, 9):
+        for i in range(1, 8):  # use range(1, 9) if there is a 7th grade
             abo = Abo.get_by_id(i)
             res = abo.get_sponsorshipGrade()
             #print "{}: amount: {} grade: {}".format(i, abo.amount, res)
