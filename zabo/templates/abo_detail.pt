@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="backend">
+  <tal:block metal:fill-slot="middle">
+      <p>
+        Please <a href="${request.route_url('logout')}">log out</a>
+        when you are done.
+        Or go <a href="${request.route_url('dash')}">back to dashboard</a>.
+      </p>
+
+      <h1>Details for Contribution #${abo.id}</h1>
+      <a href="$ off {request.route_url('edit', _id=abo.id)}" class="btn btn-warning">edit</a>
+      <a href="$ off {request.route_url('delete_entry', aboid=abo.id)}" class="btn btn-danger">delete</a>
+      <table class="table table-striped">
+	<tr>
+          <td>code</td>
+	  <td>${abo.refcode}</td>
+        </tr>
+	<tr>
+          <td>name/pseudonym</td>
+	  <td>${abo.name}</td>
+        </tr>
+	<tr>
+          <td>email</td>
+	  <td><a href="mailto:${abo.email}">${abo.email}</a></td>
+        </tr>
+	<tr>
+          <td>amount</td>
+	  <td>${abo.amount}</td>
+        </tr>
+	<tr>
+          <td>locale (Sprache)</td>
+	  <td>${abo.locale}</td>
+        </tr>
+	<tr>
+          <td>date issued (Wann erstellt)</td>
+	  <td>${abo.date_issued}</td>
+        </tr>
+	<tr>
+          <td>payment received?</td>
+          <td>
+            <div tal:condition="not abo.payment_received">
+              <div class="btn btn-danger">Nein</div>
+              <a href="$ off {request.route_url('switch_pay', aboid=abo.id)}"
+                 class="btn btn-primary">
+                Zahlungseingang bestätigen
+              </a>
+            </div>
+            <div tal:condition="abo.payment_received">
+              <a href="$ off {request.route_url('switch_pay', aboid=abo.id)}"
+                 class="btn btn-success"
+                 title="$ off {abo.payment_received_date} (anklicken zum verneinen)">
+                Ja</a>
+            </div>
+          </td>
+        </tr>
+	<tr tal:condition="abo.payment_received">
+          <td>payment reception date</td>
+          <td>${abo.payment_received_date}</td>
+        </tr>
+	<tr tal:condition="abo.payment_received">
+          <td>link code</td>
+          <td>${abo.linkcode}</td>
+        </tr>
+	<tr tal:condition="abo.payment_received">
+          <td>payment last date</td>
+          <td>${abo.payment_last_date}</td>
+        </tr>
+	<tr tal:condition="abo.payment_received">
+          <td>payment due date</td>
+          <td>${abo.payment_due_date}</td>
+        </tr>
+	<tr>
+          <td>payment confirmed?</td>
+          <td>${abo.payment_confirmed_email or "No"}
+            ${abo.payment_confirmed_email_date or ""}</td>
+        </tr>
+	<tr>
+          <td>payment reminder sent?</td>
+          <td>${abo.payment_reminder_sent or "No"}
+            ${abo.payment_reminder_sent_date or ""}</td>
+        </tr>
+      </table>
+      <h3>List of transfers</h3>
+      <table>
+        <tr>
+          <td>id</td><td>date</td><td>amount</td>
+        </tr>
+        <tr tal:repeat="transfer transfers">
+          <td>${transfer.id}</td>
+          <td>${transfer.date}</td>
+          <td>${transfer.amount}</td>
+        </tr>
+      </table>
+  </tal:block>
+</html>
