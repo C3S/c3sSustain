@@ -74,8 +74,8 @@ def main(global_config, **settings):
     # statistics
     config.add_route('stats', '/stats')
     # sponsor badge links
-    config.add_route('sponsor_image', '/sponsor/{linkcode}.png')
-    config.add_route('sponsor_page', '/sponsor/{linkcode}.html')
+    config.add_route('sponsor_image', '/verify/{linkcode}.png')
+    config.add_route('sponsor_page', '/verify/{linkcode}.html')
 
     config.scan()
     return config.make_wsgi_app()

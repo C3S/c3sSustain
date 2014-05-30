@@ -75,43 +75,58 @@ def mailbody_transfer_received(_abo, _url):
     depending on a datasets locale setting, language is chosen
     '''
     if _abo.locale == 'de':
-        body_lines = u'''Hallo {},
+        body_lines = u'''Hallo {0},
 
 Wir haben Deine Überweisung erhalten. Dankeschön!
 
 Du kannst folgenden Link benutzen, um Deine Grafik zu laden,
 und auf Deiner Website zu hosten:
 
-  {}/sponsor/{}.png
+  {1}/verify/{2}.png
 
 Du kannst auf die folgende Seite verlinken,
 die öffentlich (!) den aktuellen Status deines Abos anzeigt:
 
-  {}/sponsor/{}.html
+  {1}/verify/{2}.html
+
+Um das Banner direkt in ein Blog oder eine Webseite einzubauen, kannst Du
+folgenden Code verwenden:
+
+  <a href="{1}/verify/{2}.html">
+    <img alt="I sustain C3S" style="border-width:0"
+     src="{1}/verify/{2}.png" />
+  </a>
 
 Bis bald!
 
 Dein C3S-Team
-    '''.format(_abo.name, _url, _abo.linkcode, _url, _abo.linkcode,)
+    '''.format(_abo.name, _url, _abo.linkcode,)
 
     else:  # default fallback: english
-        body_lines = u'''Hello {},
+        body_lines = u'''Hello {0},
 
 we have received your payment. Thank you very much!
 
 You may use the following link to download your banner
 for hosting it on your website:
 
-  {}/sponsor/{}.png
+  {1}/verify/{2}.png
 
 You may also link to the following page, if you want to make public (!)
 the current status of your support:
 
-  {}/sponsor/{}.html
+  {1}/verify/{2}.html
+
+To embed the banner in your blog or website, you can use this code:
+
+  <a href="{1}/verify/{2}.html">
+    <img alt="I sustain C3S" style="border-width:0"
+     src="{1}/verify/{2}.png" />
+  </a>
 
 Until soon
 
 Your C3S team
-    '''.format(_abo.name, _url, _abo.linkcode, _url, _abo.linkcode,)
+    '''.format(_abo.name, _url, _abo.linkcode,)
 
     return body_lines

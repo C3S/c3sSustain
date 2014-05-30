@@ -405,7 +405,7 @@ class SponsorsFunctionalTests(ZaboTestBase):
         '''
         try to load a apage with a non-existing linkcode
         '''
-        res = self.testapp.get('/sponsor/NONEXISTING.html', status=200)
+        res = self.testapp.get('/verify/NONEXISTING.html', status=200)
         #print res.body
         self.failUnless('This link code is invalid.' in res.body)
 
@@ -414,7 +414,7 @@ class SponsorsFunctionalTests(ZaboTestBase):
         try to load a apage with a non-existing linkcode
         '''
         res = self.testapp.get(
-            '/sponsor/NONEXISTING.html?_LOCALE_=de', status=200)
+            '/verify/NONEXISTING.html?_LOCALE_=de', status=200)
         #print res.body
         self.failUnless('Dieser Link-Code ist ungültig.' in res.body)
 
@@ -423,7 +423,7 @@ class SponsorsFunctionalTests(ZaboTestBase):
         try to load a apage with a non-existing linkcode
         '''
         res = self.testapp.get(
-            '/sponsor/NONEXISTING.png?_LOCALE_=de', status=302)
+            '/verify/NONEXISTING.png?_LOCALE_=de', status=302)
         #print res.location
         self.failUnless('ungueltig.png' in res.location)
         res2 = res.follow()
@@ -434,7 +434,7 @@ class SponsorsFunctionalTests(ZaboTestBase):
         '''
         try to load a apage with a non-existing linkcode
         '''
-        res = self.testapp.get('/sponsor/NONEXISTING.png', status=302)
+        res = self.testapp.get('/verify/NONEXISTING.png', status=302)
         #print res.location
         self.failUnless('invalid.png' in res.location)
         res2 = res.follow()
@@ -462,18 +462,18 @@ class SponsorsFunctionalTests(ZaboTestBase):
         image
         '''
         image = self.testapp.get(
-            '/sponsor/{}.png'.format(new_abo.linkcode), status=200)
+            '/verify/{}.png'.format(new_abo.linkcode), status=200)
         #print len(image.body)
         self.failUnless(85000 < len(image.body) < 90000)  # check size of image
         '''
         html page
         '''
         html = self.testapp.get(
-            '/sponsor/{}.html'.format(new_abo.linkcode), status=200)
+            '/verify/{}.html'.format(new_abo.linkcode), status=200)
         #print html.body
         # link to image must be in html
         self.failUnless(
-            '/sponsor/{}.png'.format(new_abo.linkcode) in html.body)
+            '/verify/{}.png'.format(new_abo.linkcode) in html.body)
         self.failUnless('<small>Contribution by</small>' in html.body)
         self.failUnless(new_abo.name in html.body)
 
@@ -562,7 +562,7 @@ class BackendFunctionalTests(ZaboTestBase):
         self.assertEquals(abo2.payment_received, True)
         #print abo2.linkcode
         #print type(abo2.name)
-        _url = '/sponsor/' + abo2.linkcode + '.html'
+        _url = '/verify/' + abo2.linkcode + '.html'
         _html = self.testapp.get(_url, status=200)
         print _html.body
         self.assertTrue(abo2.name.encode('utf8') in _html.body)
