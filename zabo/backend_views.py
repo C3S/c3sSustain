@@ -25,6 +25,8 @@ from mail_utils import mailbody_transfer_received
 from .models import (
     Abo,
     Staff,
+    Transfers,
+    DBSession,
 )
 from .utils import make_random_linkcode
 
@@ -165,8 +167,8 @@ def dashboard_view(request):
 
             return HTTPFound(
                 location=request.route_url(
-                    'detail',
-                    ticket_id=_entry.id)
+                    'abo_detail',
+                    _id=_entry.id)
             )
         except:
             # choose default
@@ -298,6 +300,31 @@ def autocomplete_refcode_input_values(request):
     return Abo.get_matching_refcodes(text)
 
 
+@view_config(renderer='templates/abo_detail.pt',
+             permission='manage',
+             route_name='abo_detail')
+def abo_detail(request):
+    '''
+    show details about one contribution
+    '''
+    _id = request.matchdict['_id']
+    _abo = Abo.get_by_id(_id)
+    # check abo exists or redirect to dashboard
+    if isinstance(_abo, NoneType):
+        request.session.flash(
+            'this abo id was not found in the DB',
+            'messages'
+        )
+        return HTTPFound(location=request.route_url(
+            'dash'))
+    else:
+        print Transfers.get_all_transfers_by_aboid(_abo.id)
+        return {
+            'abo': _abo,
+            'transfers': Transfers.get_all_transfers_by_aboid(_abo.id),
+        }
+
+
 @view_config(permission='manage',
              route_name='payment_received')
 def payment_received(request):
@@ -315,15 +342,26 @@ def payment_received(request):
     elif _abo.payment_received is False:  # set to NOW
         _abo.payment_received = True
         _abo.payment_received_date = datetime.datetime.now()
-        _abo.linkcode = make_random_linkcode()
+        if _abo.linkcode is None:
+            print "linkcode did not exist before"
+            _abo.linkcode = make_random_linkcode()
+        else:
+            pass
+            #print "linkcode did exist: {}".format(_abo.linkcode)
+        _transfer = Transfers(
+            abo_id=_abo.id,
+            date=datetime.datetime.now(),
+            amount=_abo.amount,
+        )
+        DBSession.add(_transfer)
 
-#    log.info(
-#        "payment info of speedfunding.id %s changed by %s to %s" % (
-#            _entry.id,
-#            request.user.login,
-#            _entry.payment_received
-#        )
-#    )
+    log.info(
+        "payment info of abo.id {} changed by {} to {}".format(
+            _abo.id,
+            request.user.login,
+            _abo.payment_received
+        )
+    )
     return HTTPFound(
         request.route_url(
             'dash',

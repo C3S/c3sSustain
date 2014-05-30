@@ -137,9 +137,9 @@
       <tr tal:repeat="abo abos"
           tal:attributes="id python: 'abo_{0}'.format(abo.id)"><!--! ? -->
         <!--! id -->
-        <td><a href="/detail/${abo.id}">${abo.id}</a></td>
+        <td><a href="${request.route_url('abo_detail', _id=abo.id)}">${abo.id}</a></td>
         <!--! code -->
-        <td><a href="/detail/${abo.id}">${abo.refcode or 'None'}</a></td>
+        <td><a href="${request.route_url('abo_detail', _id=abo.id)}">${abo.refcode or 'None'}</a></td>
         <!--! name -->
         <td>${abo.name}</td>
         <!--! email -->

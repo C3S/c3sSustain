@@ -191,22 +191,22 @@ def sponsorshipGrade(amount):
     #    return '7'
     #el
     if int(amount) >= 100:  # 100 - 249
-        print "more than 100"
+        #print "more than 100"
         return '6'
     elif int(amount) >= 50:  # 50 - 99
-        print "more than 50"
+        #print "more than 50"
         return '5'
     elif int(amount) >= 30:  # 30 - 49
-        print "more than 30"
+        #print "more than 30"
         return '4'
     elif int(amount) >= 15:  # 15 - 29
-        print "more than 15"
+        #print "more than 15"
         return '3'
     elif int(amount) >= 6:  # 6 - 14
-        print "more than 6"
+        #print "more than 6"
         return '2'
     elif int(amount) == 5:  # 5
-        print "exactely 5"
+        #print "exactely 5"
         return '1'
     else:
         return '0'
@@ -412,9 +412,14 @@ class Transfers(Base):
 
     @classmethod
     def get_sum_transfers_by_aboid(cls, abo_id):
-        transfers = DBSession.query(cls).all()
+        transfers = DBSession.query(
+            cls).filter(cls.abi_id == abo_id).all()
         sum = 0
         for transfer in transfers:
-            if transfer.abo_id == abo_id:
-                sum += transfer.amount
+            sum += transfer.amount
         return sum
+
+    @classmethod
+    def get_all_transfers_by_aboid(cls, abo_id):
+        return DBSession.query(
+            cls).filter(cls.abo_id == abo_id).all()

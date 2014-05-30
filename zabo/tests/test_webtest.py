@@ -386,19 +386,22 @@ class StatisticsFunctionalTests(ZaboTestBase):
         res4 = res3.follow()
         self.failUnless(
             'Dashboard' in res4.body)
-        # now that we are logged in, test logout
+        abo1 = Abo.get_by_id(1)
+        abo1.payment_received = True
+
+        # now that we are logged in, test the stats view
         res = self.testapp.get('/stats', status=200)
-        print res.body
+        #print res.body
 
         self.failUnless('2 DB-Einträge' in res.body)
-        self.failUnless('65 Euro, die noch nicht bezahlt sind.' in res.body)
-        self.failUnless('0 Euro, die schon bezahlt sind.' in res.body)
+        self.failUnless('42 Euro, die noch nicht bezahlt sind.' in res.body)
+        self.failUnless('23 Euro, die schon bezahlt sind.' in res.body)
         #self.failUnless('no no no' in res.body)
 
 
 class SponsorsFunctionalTests(ZaboTestBase):
 
-    def test_page_nonexisting_linkcode(self):
+    def test_page_nonexisting_linkcode_en(self):
         '''
         try to load a apage with a non-existing linkcode
         '''
@@ -406,7 +409,28 @@ class SponsorsFunctionalTests(ZaboTestBase):
         #print res.body
         self.failUnless('This link code is invalid.' in res.body)
 
-    def test_image_nonexisting_linkcode(self):
+    def test_page_nonexisting_linkcode_de(self):
+        '''
+        try to load a apage with a non-existing linkcode
+        '''
+        res = self.testapp.get(
+            '/sponsor/NONEXISTING.html?_LOCALE_=de', status=200)
+        #print res.body
+        self.failUnless('Dieser Link-Code ist ungültig.' in res.body)
+
+    def test_image_nonexisting_linkcode_de(self):
+        '''
+        try to load a apage with a non-existing linkcode
+        '''
+        res = self.testapp.get(
+            '/sponsor/NONEXISTING.png?_LOCALE_=de', status=302)
+        #print res.location
+        self.failUnless('ungueltig.png' in res.location)
+        res2 = res.follow()
+        #print len(res2.body)
+        self.failUnless(85000 < len(res2.body) < 90000)  # check size of image
+
+    def test_image_nonexisting_linkcode_en(self):
         '''
         try to load a apage with a non-existing linkcode
         '''
@@ -610,8 +634,47 @@ class BackendFunctionalTests(ZaboTestBase):
         # check there are no items left in the DB
         self.assertEqual(Abo.get_number(), 0)
 
+    def test_dashboard_jump_to_detail_by_refcode(self):
+        '''
+        use the autocomplete form in the dashboard (without the outocomplete
+        functionality) to get to a specific entry.
+        '''
+        self._login_and_dashboard()
+        res = self.testapp.post(
+            '/dash',
+            params={'code_to_show': u'56789'})  # invalid code
+        code1 = Abo.get_by_id(1).refcode
+        res = self.testapp.post(
+            '/dash',
+            params={'code_to_show': code1})  # valid code
+
+        res2 = res.follow()
+        name1 = Abo.get_by_id(1).name
+        self.assertTrue(name1.encode('utf8') in str(res2.body))
+
+    def test_dashboard_jump_to_detail(self):
+        self._login_and_dashboard()
+        code1 = Abo.get_by_id(1).refcode
+        res = self.testapp.get('/dash', status=200)
+        self.assertTrue(str(code1) in res.body)
+        res = self.testapp.get('/abo_detail/1', status=200)
+        self.assertTrue(str(code1) in res.body)
+        # try to get non-existing id
+        resX = self.testapp.get('/abo_detail/1000', status=302)
+        resY = resX.follow()
+        self.assertTrue('Dashboard' in resY.body)
+
+    def test_autocomplete_codes(self):
+        self._login_and_dashboard()  # to be logged in
+        code1 = Abo.get_by_id(1).refcode
+        code2 = Abo.get_by_id(2).refcode
+        res = self.testapp.get('/ariv/', status=200)
+        #print res.body
+        self.assertTrue(code1 in res.body)
+        self.assertTrue(code2 in res.body)
+
     # DASHBOARD SORTING
-    def test_dashboard_code_to_show(self):
+    def test_dashboard_code_to_show(self):  # fixed above!
         pass
 
     def test_dashboard_num_to_show(self):

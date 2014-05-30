@@ -99,3 +99,28 @@ class TestBackendViews(unittest.TestCase):
         #print result2
         self.assertTrue('Hallo' in result2)
         #assert(new_abo.id == 4)
+
+
+class TestSomeFunctions(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_models_sponsorshipGrade_helperFunction(self):
+        from zabo.models import sponsorshipGrade
+        #print 
+        self.assertTrue(sponsorshipGrade(1) == '0')
+        self.assertTrue(sponsorshipGrade(4) == '0')
+        self.assertTrue(sponsorshipGrade(5) == '1')
+        self.assertTrue(sponsorshipGrade(6) == '2')
+        self.assertTrue(sponsorshipGrade(14) == '2')
+        self.assertTrue(sponsorshipGrade(15) == '3')
+        self.assertTrue(sponsorshipGrade(29) == '3')
+        self.assertTrue(sponsorshipGrade(30) == '4')
+        self.assertTrue(sponsorshipGrade(49) == '4')
+        self.assertTrue(sponsorshipGrade(50) == '5')
+        self.assertTrue(sponsorshipGrade(99) == '5')
+        self.assertTrue(sponsorshipGrade(100) == '6')
+        self.assertTrue(sponsorshipGrade(12345) == '6')
