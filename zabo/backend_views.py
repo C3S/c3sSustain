@@ -401,7 +401,7 @@ def send_mail_view(request):
     the_mail_body = u''.join([line for line in body_lines])
     the_mail = Message(
         subject=_(u"C3S ZuschussAbo: deine Links!"),
-        sender="noreply@c3s.cc",
+        sender=request.registry.settings['mail_from'],
         recipients=[_abo.email],
         body=the_mail_body
     )
