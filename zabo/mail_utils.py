@@ -82,7 +82,9 @@ Wir haben Deine Überweisung erhalten. Dankeschön!
 Du kannst folgenden Link benutzen, um Deine Grafik zu laden,
 und auf Deiner Website zu hosten:
 
-  {1}/verify/{2}.png
+  {1}/verify/{2}.png  (groß: 834 x 305px)
+
+  {1}/verify/{2}_s.png  (klein: 287 x 105px)
 
 Du kannst auf die folgende Seite verlinken,
 die öffentlich (!) den aktuellen Status deines Abos anzeigt:
@@ -95,6 +97,13 @@ folgenden Code verwenden:
   <a href="{1}/verify/{2}.html">
     <img alt="I sustain C3S" style="border-width:0"
      src="{1}/verify/{2}.png" />
+  </a>
+
+Oder mit kleinerer Grafik:
+
+  <a href="{1}/verify/{2}.html">
+    <img alt="I sustain C3S" style="border-width:0"
+     src="{1}/verify/{2}_s.png" />
   </a>
 
 Bis bald!
@@ -110,7 +119,9 @@ we have received your payment. Thank you very much!
 You may use the following link to download your banner
 for hosting it on your website:
 
-  {1}/verify/{2}.png
+  {1}/verify/{2}.png  (large: 834 x 305px)
+
+  {1}/verify/{2}_s.png  (small: 287 x 105px)
 
 You may also link to the following page, if you want to make public (!)
 the current status of your support:
@@ -122,6 +133,13 @@ To embed the banner in your blog or website, you can use this code:
   <a href="{1}/verify/{2}.html">
     <img alt="I sustain C3S" style="border-width:0"
      src="{1}/verify/{2}.png" />
+  </a>
+
+Or using the smaller image:
+
+  <a href="{1}/verify/{2}.html">
+    <img alt="I sustain C3S" style="border-width:0"
+     src="{1}/verify/{2}_s.png" />
   </a>
 
 Until soon

@@ -34,17 +34,18 @@
          tal:condition="not invalid and abo">
       <div class="alert alert-success">
 	<h1>
-	  <small i18n:translate="">Contribution by</small>
-          ${abo.name}
+	  <small i18n:translate="">Thanks, </small>
+          ${abo.name}<small>,</small>
+	  <small i18n:translate="">for the support!</small>
 	</h1>
-	<a href="${request.route_url('sponsor_image',linkcode=abo.linkcode)}">
+	<div class="row">
           <img src="${request.route_url('sponsor_image',linkcode=abo.linkcode)}"
-	       class="img-responsive"/>
-        </a>
+	       class="img-responsive center-block"/>
+	</div>
       </div>
       <p>
         <span i18n:translate="">
-          You found a page showing the ongoing contribution of one of C3S' supporters. They help us to bear current expenses that can not be covered by the development project support from the State of North Rhine-Westphalia. If you want to know more, please read</span>
+          You found a page showing the ongoing contribution of one of C3S' supporters. They help us to bear current expenses. If you want to know more, please read</span>
         <a i18n:translate="" href="${financial_situation_blog}">
           our detailed information on the financial situation of the C3S</a>.
       </p>

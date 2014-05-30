@@ -5,3 +5,7 @@ htmlcov/
 *.sqlite*
 #*
 .#*
+*.pyc
+zabo/static_offline/*
+zabo/static/*
+./production.ini

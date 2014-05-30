@@ -53,9 +53,41 @@ def sponsor_image(request):
     #return HTTPFound(request.static_url(the_url))
     # XXX TODO: spool the files, don't serve from static !!!
     # link must be unknown to outside!
+    base_path = request.registry.settings['base_path'] or ''
     the_file = os.path.abspath(
         os.path.join(
+            base_path,
             'zabo/static_offline/badge' + _abo.get_sponsorshipGrade() + '.png')
+    )
+    response = Response(content_type='image/png')
+    response.app_iter = open(the_file, "r")
+    return response  # pragma: no cover
+
+
+@view_config(route_name='sponsor_image_small')
+def sponsor_image_small(request):
+    """
+    return a smaller image depending on the amount given
+    (see get_sponsorshipGrade)
+    """
+    #print "this is sponsor image"
+    _code = request.matchdict['linkcode']
+    _abo = Abo.get_by_linkcode(_code)
+    if isinstance(_abo, NoneType):
+        if request.locale_name == 'de':
+            the_url = 'zabo:static/ungueltig_s.png'
+        else:
+            the_url = 'zabo:static/invalid_s.png'
+        return HTTPFound(request.static_url(the_url))
+    #the_url = 'zabo:static/badge' + _abo.get_sponsorshipGrade() + '.png'
+    #return HTTPFound(request.static_url(the_url))
+    # XXX TODO: spool the files, don't serve from static !!!
+    # link must be unknown to outside!
+    base_path = request.registry.settings['base_path'] or ''
+    the_file = os.path.abspath(
+        os.path.join(
+            base_path,
+            'zabo/static_offline/badge' + _abo.get_sponsorshipGrade() + '_s.png')
     )
     response = Response(content_type='image/png')
     response.app_iter = open(the_file, "r")

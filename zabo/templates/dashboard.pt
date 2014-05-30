@@ -155,7 +155,7 @@
                href="${request.route_url('payment_received',
                      abo_id=abo.id)}"
                title="Jetzt! (Zahlungseingeng jetzt bestätigen)"
-               class="btn btn-primary">Noch nicht?</a>
+               class="btn btn-primary">Jetzt</a>
             <a tal:condition="abo.payment_received"
                href="${request.route_url('payment_received',
                      abo_id=abo.id)}"

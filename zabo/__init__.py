@@ -75,6 +75,7 @@ def main(global_config, **settings):
     config.add_route('stats', '/stats')
     # sponsor badge links
     config.add_route('sponsor_image', '/verify/{linkcode}.png')
+    config.add_route('sponsor_image_small', '/verify/{linkcode}_s.png')
     config.add_route('sponsor_page', '/verify/{linkcode}.html')
 
     config.scan()

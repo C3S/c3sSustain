@@ -17,6 +17,65 @@
            class="img-responsive"
            alt="banner" />
     </div>
+    <h3 i18n:translate="">
+      Overview of all available banners
+    </h3>
+    <div class="row">
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+        <div class="alert alert-success">
+          <h2>Note&nbsp;<strong>Do</strong>:</h2>
+          <h3>5 &euro;</h3>
+          <img src="${request.static_url('zabo:static/badge1_s.png')}"
+               class="img-responsive"
+               style="width:auto"/>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+        <div class="alert alert-success">
+          <h2>Note&nbsp;<strong>Re</strong>:</h2>
+          <h3>6-14 &euro;</h3>
+          <img src="${request.static_url('zabo:static/badge2_s.png')}"
+               class="img-responsive"
+               style="width:auto"/>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+        <div class="alert alert-success">
+          <h2>Note <strong>Mi</strong>:</h2>
+          <h3>15-29&nbsp;&euro;</h3>
+          <img src="${request.static_url('zabo:static/badge3_s.png')}"
+               class="img-responsive"
+               style="width:auto"/>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+        <div class="alert alert-success">
+          <h2>Note&nbsp;<strong>Fa</strong>:</h2>
+          <h3>30-49 &euro;</h3>
+          <img src="${request.static_url('zabo:static/badge4_s.png')}"
+               class="img-responsive"
+               style="width:auto"/>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+        <div class="alert alert-success">
+          <h2>Note&nbsp;<strong>So</strong>:</h2>
+          <h3>50-99 &euro;</h3>
+          <img src="${request.static_url('zabo:static/badge5_s.png')}"
+               class="img-responsive"
+               style="width:auto"/>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+        <div class="alert alert-success">
+          <h2>Note&nbsp;<strong>La</strong>:</h2>
+          <h3>100-...&euro; </h3>
+          <img src="${request.static_url('zabo:static/badge6_s.png')}"
+               class="img-responsive"
+               style="auto"/>
+        </div>
+      </div>
+    </div>
     <p i18n:translate="">
       You may change or terminate your contribution at any time and without notice.
     </p>

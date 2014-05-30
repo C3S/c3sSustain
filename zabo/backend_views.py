@@ -399,8 +399,12 @@ def send_mail_view(request):
     #print body_lines
     #print '*'*60
     the_mail_body = u''.join([line for line in body_lines])
+    if _abo.locale == 'en':
+        _subject = u'You sustain C3S: Your Links!'
+    else:
+        _subject = u'You sustain C3S: Deine Links!'
     the_mail = Message(
-        subject=_(u"C3S ZuschussAbo: deine Links!"),
+        subject=_subject,
         sender=request.registry.settings['mail_from'],
         recipients=[_abo.email],
         body=the_mail_body

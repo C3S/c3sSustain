@@ -223,7 +223,7 @@ def confirm_abo(request):
         #print "the amount: {}".format(appstruct['amount'])
         from .models import sponsorshipGrade
         grade = sponsorshipGrade(appstruct['amount'])
-        banner_string = 'zabo:static/sustain/Stufe' + grade + '.jpg'
+        banner_string = 'zabo:static/badge' + grade + '_s.png'
         banner_url = request.static_url(banner_string)
 
         return {
@@ -265,9 +265,12 @@ def sendmail_view(request):
 
         from mail_utils import mailbody_transfer_directions
         the_mail_body = mailbody_transfer_directions(new_abo)
-
+        if new_abo.locale == 'de':
+            _subject = u'Sustain C3S: Fast geschafft. Nächste Schritte'
+        else:
+            _subject = u'You sustain C3S: awaiting your contribution'
         the_mail = Message(
-            subject=_(u'I sustain C3S: awaiting your contribution'),
+            subject=_subject,
             #(u"C3S Zuschuss Abo: bitte überweisen!"),
             sender=request.registry.settings['mail_from'],
             recipients=[new_abo.email, ],

@@ -67,14 +67,17 @@
 	  <tal:block metal:define-slot="bottom"></tal:block>
       </div>
       </div>
-    </div>
-    </div>
-    <div id="footer">
-      <div class="footer alert alert-success">
-        &copy; Copyright 2014, C3S SCE.
-        <a tal:attributes="href python:'https://www.c3s.cc/kontakt/' if request.locale_name == 'de' else 'https://www.c3s.cc/en/contact-us/'"
-           i18n:translate="">Contact &amp; Imprint</a>
+      <div id="footer">
+	<div class="footer alert alert-success">
+          &copy; Copyright 2014, C3S SCE.
+          <a tal:attributes="href python:'https://www.c3s.cc/kontakt/' if request.locale_name == 'de' else 'https://www.c3s.cc/en/contact-us/'"
+             i18n:translate="">Contact</a>
+	  &amp;
+	  <a tal:attributes="href python:'https://www.c3s.cc/impressum/' if request.locale_name == 'de' else 'https://www.c3s.cc/en/impressum/'"
+             i18n:translate="">Imprint</a>
+	</div>
       </div>
+    </div>
     </div>
     <tal:block metal:define-slot="javascript-last"></tal:block>
   </body>

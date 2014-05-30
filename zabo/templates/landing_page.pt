@@ -44,58 +44,76 @@
       </p>
       <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+	  <a href="${request.route_url('zform')}"
+	     style="text-decoration: none">
           <div class="alert alert-success">
             <h2>Note <strong>Do</strong>:</h2>
             <h3>5 &euro;</h3>
-            <img src="${request.static_url('zabo:static/sustain/Stufe1.jpg')}"
+            <img src="${request.static_url('zabo:static/badge1_s.png')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
+	  </a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
+	  <a href="${request.route_url('zform')}"
+	     style="text-decoration: none">
           <div class="alert alert-success">
             <h2>Note <strong>Re</strong>:</h2>
             <h3>6-14 &euro;</h3>
-            <img src="${request.static_url('zabo:static/sustain/Stufe2.jpg')}"
+            <img src="${request.static_url('zabo:static/badge2_s.png')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
+	  </a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
-          <div class="alert alert-success">
+          <a href="${request.route_url('zform')}"
+	     style="text-decoration: none">
+	  <div class="alert alert-success">
             <h2>Note <strong>Mi</strong>:</h2>
             <h3>15-29 &euro;</h3>
-            <img src="${request.static_url('zabo:static/sustain/Stufe3.jpg')}"
+            <img src="${request.static_url('zabo:static/badge3_s.png')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
+	  </a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
-          <div class="alert alert-success">
+          <a href="${request.route_url('zform')}"
+	     style="text-decoration: none">
+	  <div class="alert alert-success">
             <h2>Note <strong>Fa</strong>:</h2>
             <h3>30-49 &euro;</h3>
-            <img src="${request.static_url('zabo:static/sustain/Stufe4.jpg')}"
+            <img src="${request.static_url('zabo:static/badge4_s.png')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
+	  </a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
-          <div class="alert alert-success">
+          <a href="${request.route_url('zform')}"
+	     style="text-decoration: none">
+	  <div class="alert alert-success">
             <h2>Note <strong>So</strong>:</h2>
             <h3>50-99 &euro;</h3>
-            <img src="${request.static_url('zabo:static/sustain/Stufe5.jpg')}"
+            <img src="${request.static_url('zabo:static/badge5_s.png')}"
                  class="img-responsive"
                  style="width:auto"/>
           </div>
+	  </a>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2">
-          <div class="alert alert-success">
+          <a href="${request.route_url('zform')}"
+	     style="text-decoration: none">
+	  <div class="alert alert-success">
             <h2>Note <strong>La</strong>:</h2>
             <h3>100-...&euro; </h3>
-            <img src="${request.static_url('zabo:static/sustain/Stufe6.jpg')}"
+            <img src="${request.static_url('zabo:static/badge6_s.png')}"
                  class="img-responsive"
                  style="auto"/>
           </div>
+	  </a>
         </div>
       </div>            
       <p i18n:translate="">
