@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabo 0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-26 01:17+0200\n"
-"PO-Revision-Date: 2014-05-29 22:04+0100\n"
+"POT-Creation-Date: 2014-05-30 23:39+0200\n"
+"PO-Revision-Date: 2014-05-30 23:43+0100\n"
 "Last-Translator: Christoph Scheid <christoph.scheid@c3s.cc>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -18,29 +18,25 @@ msgstr ""
 "Generated-By: Babel 1.3\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: zabo/backend_views.py:41
+#: zabo/backend_views.py:43
 msgid "Logged out successfully."
 msgstr "Erfolgreich abgemeldet."
 
-#: zabo/backend_views.py:70
+#: zabo/backend_views.py:72
 msgid "login"
 msgstr "Login"
 
-#: zabo/backend_views.py:77
+#: zabo/backend_views.py:79
 msgid "password"
 msgstr "Passwort"
 
-#: zabo/backend_views.py:86
+#: zabo/backend_views.py:88
 msgid "Submit"
 msgstr "Absenden"
 
-#: zabo/backend_views.py:87
+#: zabo/backend_views.py:89
 msgid "Reset"
 msgstr "Zurücksetzen"
-
-#: zabo/backend_views.py:365
-msgid "C3S ZuschussAbo: deine Links!"
-msgstr "Sustain C3S: here are your links!"
 
 #: zabo/views.py:98 zabo/views.py:197
 msgid "Name or pseudonym"
@@ -87,17 +83,17 @@ msgstr "Eingaben bestätigen"
 msgid "Change Details"
 msgstr "Eingaben ändern"
 
-#: zabo/views.py:270
-msgid "I sustain C3S: awaiting your contribution"
-msgstr "I sustain C3S: Warten auf die Überweisung"
-
-#: zabo/views.py:286
+#: zabo/views.py:289
 msgid "[SUSTAIN] neu"
 msgstr "[SUSTAIN] neu"
 
-#: zabo/templates/base_bootstrap.pt:75
-msgid "Contact &amp; Imprint"
-msgstr "Kontakt &amp; Impressum"
+#: zabo/templates/base_bootstrap.pt:73
+msgid "Contact"
+msgstr "Kontakt"
+
+#: zabo/templates/base_bootstrap.pt:76
+msgid "Imprint"
+msgstr "Impressum"
 
 #: zabo/templates/confirm_data.pt:6
 msgid "Your Data We Received"
@@ -115,16 +111,20 @@ msgstr ""
 "Diese Banner-Grafik wurde aufgrund der Höhe deine Unterstützung ausgewählt. "
 "Du kannst die Eingaben verändern um ein anderes auszuwählen."
 
-#: zabo/templates/confirm_data.pt:20 zabo/templates/zform.pt:22
+#: zabo/templates/confirm_data.pt:20
+msgid "Overview of all available banners"
+msgstr "Übersicht der verfügbaren Banner-Grafiken"
+
+#: zabo/templates/confirm_data.pt:79 zabo/templates/zform.pt:22
 msgid ""
 "You may change or terminate your contribution at any time and without notice."
 msgstr "Du kannst jederzeit und ohne Frist den Betrag ändern oder stornieren. "
 
-#: zabo/templates/confirm_data.pt:23 zabo/templates/zform.pt:26
+#: zabo/templates/confirm_data.pt:82 zabo/templates/zform.pt:26
 msgid "Disclaimer (Data Protection)"
 msgstr "Datenschutzerklärung der C3S"
 
-#: zabo/templates/confirm_data.pt:24 zabo/templates/zform.pt:27
+#: zabo/templates/confirm_data.pt:83 zabo/templates/zform.pt:27
 msgid ""
 "We will store and use the information you provide for administrative "
 "purposes only, to verify your contribution and in order to show your "
@@ -138,7 +138,7 @@ msgstr ""
 "wird nicht veröffentlicht oder an Dritte weitergegeben, sondern nur für "
 "Benachrichtigungen in Bezug auf Deine Unterstützung genutzt."
 
-#: zabo/templates/confirm_data.pt:30 zabo/templates/zform.pt:33
+#: zabo/templates/confirm_data.pt:89 zabo/templates/zform.pt:33
 msgid "Responsible authority: C3S SCE mbH, Heyestraße 194, 40625 Düsseldorf."
 msgstr ""
 "Verantwortliche Stelle ist die C3S SCE, Heyestraße 194, 40625 Düsseldorf."
@@ -160,8 +160,8 @@ msgstr ""
 "können. Wenn Du genauer wissen möchtest, wofür Dein Geld verwendet wird, "
 "lies Dir "
 
-#: zabo/templates/landing_page.pt:27 zabo/templates/sponsor.pt:17
-#: zabo/templates/sponsor.pt:45
+#: zabo/templates/landing_page.pt:27 zabo/templates/sponsor.pt:19
+#: zabo/templates/sponsor.pt:49
 msgid "our detailed information on the financial situation of the C3S"
 msgstr "die Details zur aktuellen Finanzstruktur der C3S durch"
 
@@ -212,7 +212,7 @@ msgstr ""
 "Hier findest Du die Stufen der Unterstützung und die jeweiligen Grafiken, "
 "die Du in deine Website einbinden kannst."
 
-#: zabo/templates/landing_page.pt:101
+#: zabo/templates/landing_page.pt:119
 msgid ""
 "Have you decided to support us with a monthly contribution? Please click "
 "here:"
@@ -265,7 +265,7 @@ msgstr ""
 msgid "This link code is invalid."
 msgstr "Dieser Link-Code ist ungültig."
 
-#: zabo/templates/sponsor.pt:15 zabo/templates/sponsor.pt:43
+#: zabo/templates/sponsor.pt:17
 msgid ""
 "You found a page showing the ongoing contribution of one of C3S' supporters. "
 "They help us to bear current expenses that can not be covered by the "
@@ -278,16 +278,29 @@ msgstr ""
 "Entwicklungsprojekt getragen werden können. Wenn Du Genaueres wissen "
 "möchtest, lies Dir"
 
-#: zabo/templates/sponsor.pt:20 zabo/templates/sponsor.pt:48
+#: zabo/templates/sponsor.pt:22 zabo/templates/sponsor.pt:52
 msgid ""
 "If you are convinced of the importance of our work, become a supporter, too!"
 msgstr ""
 "Wenn Du von der Wichtigkeit unserer Arbeit überzeugt bist, dann unterstütze "
 "uns auch!"
 
-#: zabo/templates/sponsor.pt:35
-msgid "Contribution by"
-msgstr "Unterstützung von"
+#: zabo/templates/sponsor.pt:37
+msgid "Thanks,"
+msgstr "Danke,"
+
+#: zabo/templates/sponsor.pt:39
+msgid "for the support!"
+msgstr "für die Unterstützung!"
+
+#: zabo/templates/sponsor.pt:47
+msgid ""
+"You found a page showing the ongoing contribution of one of C3S' supporters. "
+"They help us to bear current expenses. If you want to know more, please read"
+msgstr ""
+"Du hast eine Seite gefunden, die einen fortlaufenden Beitrag einer/eines "
+"Unterstützenden der GEMA-Alternative C3S zeigt. Diese helfen uns, laufende "
+"Kosten zu decken. Wenn Du Genaueres wissen möchtest, lies Dir"
 
 #: zabo/templates/zform.pt:6
 msgid "I sustain C3S -- This is how it works:"
@@ -295,7 +308,7 @@ msgstr "I sustain C3S -- So geht's:"
 
 #: zabo/templates/zform.pt:8
 msgid ""
-"You fill out the simple form on this page. We have reduced the form details "
+"You complete the simple form on this page. We have reduced the form details "
 "to a minimum, so we can assign and book incoming payments correctly and "
 "contact you if we need to."
 msgstr ""
@@ -331,13 +344,13 @@ msgstr ""
 #: zabo/templates/zform.pt:17
 msgid ""
 "You are in control: No need for a direct debiting scheme. You may change or "
-"cancel your contribution at any time. And whether your contribution becomes "
-"publicly visible -- You decide!"
+"cancel your contribution at any time. You may disclose your support for C3S "
+"or keep it private. It is up to you!"
 msgstr ""
 "Die Kontrolle bleibt bei Dir: Es ist kein Lastschriftverfahren notwendig, "
 "Du  kannst Deinen Dauerauftrag jederzeit ändern oder einstellen, und ob "
-"Deine Unterstützung öffentlich erkennbar wird, entscheidest Du ebenfalls "
-"selbst!"
+"Deine Unterstützung öffentlich erkennbar wird, indem Du den Link "
+"veröffentlichst, entscheidest Du ebenfalls selbst!"
 
 #: zabo/templates/zform.pt:20
 msgid "Your Details"

@@ -87,7 +87,8 @@ und auf Deiner Website zu hosten:
   {1}/verify/{2}_s.png  (klein: 287 x 105px)
 
 Du kannst auf die folgende Seite verlinken,
-die öffentlich (!) den aktuellen Status deines Abos anzeigt:
+die öffentlich (!) den aktuellen Status deines Abos anzeigt,
+damit auch andere sehen, dass du uns unterstützt:
 
   {1}/verify/{2}.html
 
@@ -123,8 +124,8 @@ for hosting it on your website:
 
   {1}/verify/{2}_s.png  (small: 287 x 105px)
 
-You may also link to the following page, if you want to make public (!)
-the current status of your support:
+You want to spread the news? Just link to the following page and
+everybody gets to know you're supporting us.
 
   {1}/verify/{2}.html
 

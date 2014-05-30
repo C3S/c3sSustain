@@ -6,7 +6,7 @@
     <h3 i18n:translate="">I sustain C3S -- This is how it works:</h3>
     <ol>
       <li i18n:translate="">
-        You fill out the simple form on this page. We have reduced the form details to a minimum, so we can assign and book incoming payments correctly and contact you if we need to.</li>
+        You complete the simple form on this page. We have reduced the form details to a minimum, so we can assign and book incoming payments correctly and contact you if we need to.</li>
       <li i18n:translate="">
         We will send you an email with our account details and a specific reference code.</li>
       <li i18n:translate="">
@@ -15,7 +15,7 @@
         When we receive your first transfer we send another email with your banner and your individual weblink to the page where we confirm your contribution. Whether you publish that banner and/or link is up to you.</li>
     </ol>
     <p i18n:translate="">
-      You are in control: No need for a direct debiting scheme. You may change or cancel your contribution at any time. And whether your contribution becomes publicly visible -- You decide!
+      You are in control: No need for a direct debiting scheme. You may change or cancel your contribution at any time. You may disclose your support for C3S or keep it private. It is up to you!
     </p>
     <h3 i18n:translate="">Your Details</h3>
     <div tal:content="structure zform" />
