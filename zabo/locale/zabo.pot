@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zabo 0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-30 23:39+0200\n"
+"POT-Creation-Date: 2014-06-01 05:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,22 +137,21 @@ msgstr ""
 
 #: zabo/templates/landing_page.pt:25
 msgid ""
-"There are plenty of things we have to set up in order to be able to begin to "
-"operate as a collecting society. This is why we must bear the current "
-"expenses that can not be covered by the development project support from the "
-"State of North Rhine-Westphalia. If you want to know more, please read"
+"There is a lot of preliminary work to do before we can start operating as a "
+"collecting society. This is why we must bear the current expenses that cannot"
+" be covered by the development project support from the State of North Rhine-"
+"Westphalia. If you want to know more, please read"
 msgstr ""
 
 #: zabo/templates/landing_page.pt:27 zabo/templates/sponsor.pt:19
-#: zabo/templates/sponsor.pt:49
-msgid "our detailed information on the financial situation of the C3S"
+msgid "our detailed information on the financial situation of C3S"
 msgstr ""
 
 #: zabo/templates/landing_page.pt:31
 msgid ""
-"We need a regular income. If you want to support the C3S, we would be "
-"grateful for a monthly contribution. You can register on this page fur such "
-"an additional, regular support."
+"We need regular income. If you want to support C3S, we would be grateful for "
+"a monthly contribution. You can register on this page fur such an additional,"
+" regular support."
 msgstr ""
 
 #: zabo/templates/landing_page.pt:34
@@ -166,7 +165,7 @@ msgid ""
 "Of course you are free to set the amount of your monthly contribution. As a "
 "reward, you (or your company) will not only receive good Karma, but also a "
 "symbol of our gratitude: If you support us with €5 or more per month, you can"
-" make yourself visible as a financial supporter of the C3S by integrating a "
+" make yourself visible as a financial supporter of C3S by integrating a "
 "little banner, for example on your website, your blog, or your signature in "
 "your favorite music online forum. You can link this banner to a dedicated "
 "page on our web presence and have your contribution confirmed."
@@ -242,6 +241,10 @@ msgstr ""
 msgid ""
 "You found a page showing the ongoing contribution of one of C3S' supporters. "
 "They help us to bear current expenses. If you want to know more, please read"
+msgstr ""
+
+#: zabo/templates/sponsor.pt:49
+msgid "our detailed information on the financial situation of the C3S"
 msgstr ""
 
 #: zabo/templates/zform.pt:6
