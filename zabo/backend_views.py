@@ -285,6 +285,127 @@ def dashboard_view(request):
             }
 
 
+@view_config(renderer='templates/dashboard.pt',
+             permission='manage',
+             route_name='dashboard')
+def dashboard_pages_view(request):
+    """
+    This view lets accountants view subscriptions and set their status:
+    has their payment arrived?
+
+    This version has pagination enabled
+    """
+    _number_of_datasets = Abo.get_number()
+    try:  # check if page number, orderby and order were supplied with the URL
+        _page_to_show = int(request.matchdict['number'])
+        _order_by = request.matchdict['orderby']
+        _order = request.matchdict['order']
+    except:
+        #print("Using default values")
+        _page_to_show = 0
+        _order_by = 'id'
+        _order = 'asc'
+    # check for input from "find dataset by confirm code" form
+    if 'code_to_show' in request.POST:
+        try:
+            _code = request.POST['code_to_show']
+            _entry = Abo.get_by_code(_code)
+            return HTTPFound(  # redirect to relevant details page
+                location=request.route_url(
+                    'abo_detail',
+                    _id=_entry.id)
+            )
+        except:
+            pass
+    """
+    num_display determines how many items are to be shown on one page
+    """
+    if 'num_to_show' in request.POST:
+        try:
+            _num = int(request.POST['num_to_show'])
+            if isinstance(_num, type(1)):
+                num_display = _num
+        except:
+            # choose default
+            num_display = 20
+    elif 'num_display' in request.cookies:
+        num_display = int(request.cookies['num_display'])
+    else:
+        num_display = request.registry.settings[
+            'zabo.dashboard_number']
+    """
+    base_offset helps to minimize impact on the database
+    when querying for results.
+    we can choose just those results we need for the page to show
+    """
+    base_offset = int(_page_to_show) * int(num_display)
+    # get data sets from DB
+    _abos = Abo.abo_listing(
+        'id', how_many=num_display, offset=base_offset)
+
+    # calculate next-previous-navi
+    next_page = (int(_page_to_show) + 1)
+    if (int(_page_to_show) > 0):
+        previous_page = int(_page_to_show) - 1
+    else:
+        previous_page = int(_page_to_show)
+    _last_page = int(math.ceil(_number_of_datasets / int(num_display)))
+    if next_page > _last_page:
+        next_page = _last_page
+
+    # store info about current page in cookie
+    request.response.set_cookie('on_page', value=str(_page_to_show))
+    request.response.set_cookie('num_display', value=str(num_display))
+    _order = 'asc'  # stupid default
+    request.response.set_cookie('order', value=str(_order))
+    _order_by = 'id'  # stupid default
+    request.response.set_cookie('orderby', value=str(_order_by))
+    request.response.set_cookie('num_display', value=str(num_display))
+
+    # prepare a form for autocomplete search for reference codes.
+    class RefcodeAutocompleteForm(colander.MappingSchema):
+        """
+        colander schema to make deform autocomplete form
+        """
+        code_to_show = colander.SchemaNode(
+            colander.String(),
+            title='Code finden (quicksearch; Groß-/Kleinschreibung beachten!)',
+            validator=colander.Length(min=1, max=8),
+            widget=deform.widget.AutocompleteInputWidget(
+                min_length=1,
+                #title="widget title",
+                values=request.route_path(
+                    'autocomplete_refcode_input_values',
+                    traverse=('autocomplete_refcode_input_values')
+                )
+            ),
+            description='start typing. use arrows. press enter. twice.'
+        )
+
+    schema = RefcodeAutocompleteForm()
+    form = deform.Form(
+        schema,
+        buttons=('go!',),
+        #use_ajax=True,  # <-- whoa!
+        #renderer=zpt_renderer,
+    )
+    autoformhtml = form.render()
+
+    return {'_number_of_datasets': _number_of_datasets,
+            'abos': _abos,
+            'num_display': num_display,
+            'next': next_page,
+            'previous': previous_page,
+            'autoform': autoformhtml,
+            'current': _page_to_show,
+            'last_page': _last_page,
+            'is_last_page': _page_to_show == _last_page,
+            'is_first_page': _page_to_show == 0,
+            'order': _order,
+            'orderby': _order_by,
+            }
+
+
 @view_config(renderer='json',
              permission='manage',
              route_name='autocomplete_refcode_input_values')
