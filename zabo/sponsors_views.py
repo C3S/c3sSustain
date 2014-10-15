@@ -1,5 +1,6 @@
 import os
 from pyramid.httpexceptions import HTTPFound
+from pyramid.i18n import get_locale_name
 from pyramid.response import Response
 from pyramid.view import view_config
 from types import NoneType
@@ -16,7 +17,10 @@ def sponsor_view(request):
     #print "this is sponsor view"
     _code = request.matchdict['linkcode']
     _abo = Abo.get_by_linkcode(_code)
-    financial_blog_url = request.registry.settings['financial_blog_url']
+    if 'de' in get_locale_name(request):
+        financial_blog_url = request.registry.settings['financial_blog_url_de']
+    else:
+        financial_blog_url = request.registry.settings['financial_blog_url_en']
     if isinstance(_abo, NoneType):
         #print "=== not found in DB"
         request.session.flash('this linkcode is invalid', 'messages')

@@ -77,7 +77,10 @@ def landing_page_view(request):
     else:
         locale_name = get_locale_name(request)
 
-    financial_blog_url = request.registry.settings['financial_blog_url']
+    if 'de' in locale_name:
+        financial_blog_url = request.registry.settings['financial_blog_url_de']
+    else:
+        financial_blog_url = request.registry.settings['financial_blog_url_en']
     # debug: check locale
     #print "the locale: {}".format(get_locale_name(request))
 
