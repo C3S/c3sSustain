@@ -9,7 +9,7 @@ def wintervorrat_small_view(request):
     wintervorrat svg small
     '''
     request.response.content_type = 'image/svg+xml'
-    _paid = 3001  # Abo.get_sum_abos_paid()
+    _paid = Abo.get_sum_abos_paid()
     _unpaid = Abo.get_sum_abos_unpaid()
     if 3000 >= _paid > 2500:
         _font_size_target = 200
