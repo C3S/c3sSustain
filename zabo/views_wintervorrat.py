@@ -29,10 +29,10 @@ def wintervorrat_view(request):
     if _lang == 'de':
         _running_costs = (
             u"Die laufenden Kosten der C3S betragen €{} "
-            u"im Monat".format(_target_amount))
+            u"im Monat.".format(_target_amount))
         _unpaid_subscriptions = (
             u"Es gibt aktuell {} Neuanmeldungen, die uns Zuwendungen von "
-            u"insgesamt €{} im Monat in Aussicht stellen").format(
+            u"insgesamt €{} im Monat in Aussicht stellen.").format(
                 _num_unpaid, _unpaid)
         _paid_subscriptions = (
             u"Wir haben {} aktive Sustainer, die im Monat "
@@ -42,10 +42,10 @@ def wintervorrat_view(request):
     else:
         _running_costs = (
             u"Running costs of the C3S sum up to €{} "
-            u"per month".format(_target_amount))
+            u"per month.".format(_target_amount))
         _unpaid_subscriptions = (
             u"Currently, there are {} new subscriptions, holding out the "
-            u"prospect of €{} per month").format(
+            u"prospect of €{} per month.").format(
                 _num_unpaid, _unpaid)
         _paid_subscriptions = (
             u"We have {} active 'Sustainers', raising €{} in total "
