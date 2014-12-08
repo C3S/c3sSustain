@@ -7,23 +7,29 @@
     <p>
       <div class="visible-xs">
         <a tal:attributes="href python:'https://www.c3s.cc/wintervorrat/' if request.locale_name == 'de' else 'https://www.c3s.cc/winter-stock/'">
-          <img src="${request.route_url('wintervorrat', size='l', lang=request.locale_name)}"
-               class="img-responsive"
-               style="width:auto" />
+          <object data="${request.route_url('wintervorrat', size='l', lang=request.locale_name)}"
+                  type="image/svg+xml"
+                  class="img-responsive"
+                  style="width:auto">
+          </object>
         </a>
       </div>
       <div class="visible-sm visible-md">
         <a tal:attributes="href python:'https://www.c3s.cc/wintervorrat/' if request.locale_name == 'de' else 'https://www.c3s.cc/winter-stock/'">
-          <img src="${request.route_url('wintervorrat', size='m', lang=request.locale_name)}"
-               class="img-responsive"
-               style="width:auto" />
+          <object data="${request.route_url('wintervorrat', size='m', lang=request.locale_name)}"
+                  type="image/svg+xml"
+                  class="img-responsive"
+                  style="width:auto">
+          </object>
         </a>
       </div>
       <div class="visible-lg">
         <a tal:attributes="href python:'https://www.c3s.cc/wintervorrat/' if request.locale_name == 'de' else 'https://www.c3s.cc/winter-stock/'">
-          <img src="${request.route_url('wintervorrat', size='s', lang=request.locale_name)}"
-               class="img-responsive"
-               style="width:auto" />
+          <object data="${request.route_url('wintervorrat', size='s', lang=request.locale_name)}"
+                  type="image/svg+xml"
+                  class="img-responsive"
+                  style="width:auto">
+          </object>
         </a>
       </div>
     </p>
