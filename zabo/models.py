@@ -383,6 +383,21 @@ class Abo(Base):
         return sum_total
 
     @classmethod
+    def get_num_abos_unpaid(cls):
+        """
+        how many unpaid subscriptions are there
+        """
+        return DBSession.query(cls).filter(
+            cls.payment_received == '0').count()
+
+    @classmethod
+    def get_num_abos_paid(cls):
+        """
+        how many paid subscriptions are there
+        """
+        return DBSession.query(cls).filter(cls.payment_received).count()
+
+    @classmethod
     def get_sum_abos_paid(cls):
         abos = DBSession.query(cls).all()
         sum_total = 0

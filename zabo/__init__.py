@@ -57,9 +57,9 @@ def main(global_config, **settings):
                           'pyramid.events.NewRequest')
     # routes
     config.add_route('home', '/')
-    config.add_route('wintervorrat_S', '/wintervorrat_s.svg')
-    config.add_route('wintervorrat_M', '/wintervorrat_m.svg')
-    config.add_route('wintervorrat_L', '/wintervorrat_l.svg')
+    #svg
+    config.add_route('wintervorrat', '/wintervorrat_{size}.{lang}.svg')
+    #
     config.add_route('zform', '/now')
     config.add_route('confirm_data', '/confirm')
     config.add_route('sendmail', '/done')
