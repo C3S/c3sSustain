@@ -89,6 +89,8 @@
       xlink:href="#linearGradientStopGrauH"
       gradientUnits="userSpaceOnUse" />
   </defs>
+  <a xlink:href="${link_to_blog}"
+     target="_blank">
   <rect
       width="300"
       height="${image_height}"
@@ -133,4 +135,5 @@
     >
   <title>${text_paid_subscriptions}</title>
   €${sum_sustain_paid}</text>
+  </a>
 </svg>

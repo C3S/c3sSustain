@@ -1,9 +1,24 @@
 # -*- coding: utf-8 -*-
 
 from pyramid.view import view_config
+#from pyramid.request import Request
+#import envoy
 from .models import Abo
 
 
+## png
+#@view_config(route_name='wintervorrat_S_png')
+#             renderer='templates/wintervorrat.pt'
+#def wintervorrat_small_png(request):
+#    '''
+#    wintervorrat png small
+#    '''
+#    request.response.content_type = 'image/png'
+#    req = Request.blank('/wintervorrat_l.svg')
+#    svg = req.invoke_subrequest(req)
+#    #svg_file =
+#    #p = envoy.run('convert ')
+#    print svg
 
 
 ## svg
@@ -27,6 +42,7 @@ def wintervorrat_view(request):
     _target_amount = 3700
     # text depending on language
     if _lang == 'de':
+        _link_to_blog = 'https://www.c3s.cc/wintervorrat/'
         _running_costs = (
             u"Die laufenden Kosten der C3S betragen €{} "
             u"im Monat.".format(_target_amount))
@@ -40,6 +56,7 @@ def wintervorrat_view(request):
                 _num_paid, _paid)
         _text_preposition = u"von"
     else:
+        _link_to_blog = 'https://www.c3s.cc/en/winter-stock/'
         _running_costs = (
             u"Running costs of the C3S sum up to €{} "
             u"per month.".format(_target_amount))
@@ -96,6 +113,7 @@ def wintervorrat_view(request):
         _text_x = (_paid - 20) if _paid < 3200 else 3200
         _text_y = 85
     return {
+        'link_to_blog': _link_to_blog,
         'target_amount': _target_amount,
         'sum_sustain_total': Abo.get_sum_abos_total(),
         'sum_sustain_unpaid': _unpaid,
