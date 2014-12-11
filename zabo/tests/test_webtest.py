@@ -47,7 +47,9 @@ class ZaboTestBase(unittest.TestCase):
             'mail_from': 'noreply@c3s.cc',
             'pyramid.includes': 'pyramid_mailer.testing',
             'the_url': 'http://example.com',
-            'financial_blog_url': 'https://www.c3s.cc/ueber-c3s/finanzierung/',
+            'financial_blog_url_de': 'https://www.c3s.cc/ueber-c3s/finanzierung/',
+            'financial_blog_url_en': 'https://www.c3s.cc/en/about-us//financing/',
+            'base_path': '.'
         }
         engine = engine_from_config(my_settings)
         DBSession.configure(bind=engine)

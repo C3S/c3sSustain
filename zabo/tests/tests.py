@@ -41,6 +41,7 @@ class TestBackendViews(unittest.TestCase):
         '''
         request = testing.DummyRequest()
         request.registry.settings['the_url'] = 'http://foobar.com'
+        request.registry.settings['mail_from'] = 'dev@c3s.cc'
         request.matchdict['abo_id'] = u'1foo'  # does not exist
         result = send_mail_view(request)
         #print result.location
@@ -67,7 +68,7 @@ class TestBackendViews(unittest.TestCase):
         self.assertEqual(len(mailer.outbox), 1)
         self.assertEqual(
             mailer.outbox[0].subject,
-            u"C3S ZuschussAbo: deine Links!")
+            u"You sustain C3S: Deine Links!")
         #print dir(mailer.outbox[0])
         self.assertTrue(new_abo.linkcode in mailer.outbox[0].body)
         #print result.location
