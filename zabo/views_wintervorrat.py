@@ -76,9 +76,9 @@ def wintervorrat_view(request):
         """
         _image_height = 400
         _font_size = 270
-        if 3000 >= _paid > 2500:
+        if 3000 >= _paid > 2500:  # pragma: no cover
             _font_size_target = 200
-        elif _paid > 3000:
+        elif _paid > 3000:  # pragma: no cover
             _font_size_target = 120
         else:
             _font_size_target = 270
@@ -90,9 +90,9 @@ def wintervorrat_view(request):
         """
         _image_height = 200
         _font_size = 180
-        if 3000 >= _paid > 2900:
+        if 3000 >= _paid > 2900:   # pragma: no cover
             _font_size_target = 135
-        elif _paid > 3000:
+        elif _paid > 3000:  # pragma: no cover
             _font_size_target = 90
         else:
             _font_size_target = 180
@@ -104,9 +104,9 @@ def wintervorrat_view(request):
         """
         _image_height = 100
         _font_size = 100
-        if 3400 >= _paid > 3200:
+        if 3400 >= _paid > 3200:  # pragma: no cover
             _font_size_target = 60
-        elif _paid > 3400:
+        elif _paid > 3400:  # pragma: no cover
             _font_size_target = 40
         else:
             _font_size_target = 100

@@ -401,6 +401,31 @@ class StatisticsFunctionalTests(ZaboTestBase):
         #self.failUnless('no no no' in res.body)
 
 
+class WintervorratFunctionalTests(ZaboTestBase):
+
+    def test_wintervorrat_view(self):
+        """
+        login and go to stats view
+        """
+        # deutsch s
+        res = self.testapp.get('/wintervorrat_s.de.svg', status=200)
+        # english s
+        res = self.testapp.get('/wintervorrat_s.en.svg', status=200)
+
+        # deutsch m
+        res = self.testapp.get('/wintervorrat_m.de.svg', status=200)
+        # english m
+        res = self.testapp.get('/wintervorrat_m.en.svg', status=200)
+
+        # deutsch l
+        res = self.testapp.get('/wintervorrat_l.de.svg', status=200)
+        # english l
+        res = self.testapp.get('/wintervorrat_l.en.svg', status=200)
+
+        self.failUnless('' in res.body)
+        #self.failUnless('no no no' in res.body)
+
+
 class SponsorsFunctionalTests(ZaboTestBase):
 
     def test_page_nonexisting_linkcode_en(self):
