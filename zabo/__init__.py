@@ -70,8 +70,10 @@ def main(global_config, **settings):
     config.add_route('dashboard', '/dashboard/{number}/{orderby}/{order}')
     config.add_route('autocomplete_refcode_input_values', '/ariv/')
     config.add_route('abo_detail', '/abo_detail/{_id}')
+    config.add_route('abo_edit', '/abo_edit/{_id}')
     config.add_route('new_abo', '/new_abo')
     config.add_route('payment_received', '/paym_recd/{abo_id}')
+    config.add_route('payment_received_again', '/paym_recd_again/{abo_id}')
     config.add_route('send_confirmation_email', '/mail_mail_conf/{abo_id}')
     config.add_route('delete_entry', '/del_entry/{abo_id}')
     # statistics

@@ -9,10 +9,11 @@
         when you are done.
         Or go <a href="${request.route_url('dash')}">back to dashboard</a>.
       </p>
+      <h1>Edit Contribution #${abo.id}</h1>
+      <div tal:content="structure zform" />
 
       <h1>Details for Contribution #${abo.id}</h1>
-      <a href="${request.route_url('abo_edit', _id=abo.id)}" class="btn btn-warning">edit</a>
-      <a href="$ off {request.route_url('delete_entry', aboid=abo.id)}" class="btn btn-danger">delete</a>
+      <a href="${request.route_url('delete_entry', abo_id=abo.id)}" class="btn btn-danger">!!! delete !!!</a>
       <table class="table table-striped">
 	<tr>
           <td>code</td>
@@ -43,10 +44,10 @@
           <td>
             <div tal:condition="not abo.payment_received">
               <div class="btn btn-danger">Nein</div>
-
               <a href="${request.route_url('payment_received', abo_id=abo.id)}"
                  class="btn btn-primary">
-                Zahlungseingang bestätigen</a>
+                Zahlungseingang bestätigen
+              </a>
             </div>
             <div tal:condition="abo.payment_received">
               <a href="${request.route_url('payment_received', abo_id=abo.id)}"
@@ -67,15 +68,14 @@
 	<tr>
           <td>payment received again? (wiederholter Zahlungseingang)</td>
           <td>
+            <div tal:condition="not abo.payment_received">
+              bitte vorher ersten Zahlungseingang bestätigen
+            </div>
             <div tal:condition="abo.payment_received">
-              <form method="POST"
-                    action="${request.route_url('payment_received_again', abo_id=abo.id)}">
-                <input name="repayment_date" type="text" value="${today}"
-                       class="form-control"/>
-                <input name="submit" type="submit"
-                       class="btn btn-primary"
-                       value="Wiederholter Zahlungseingang (yyyy-mm-dd) i.H.v. €${abo.amount}"/>
-              </form>
+              <a href="${request.route_url('payment_received_again', abo_id=abo.id)}"
+                 class="btn btn-success"
+                 title="${abo.payment_last_date}">
+                Ja</a>
             </div>
           </td>
         </tr>

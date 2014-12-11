@@ -128,6 +128,7 @@
         <th>date issued</th>
         <th>payment<br />arrived?</th>
         <th>send<br />paym.<br />confirm.<br />email</th>
+        <th>payment<br />repeated</th>
         <th>date<br />last<br />payment</th>
         <th>send<br />paym.<br />reminder</th>
         <th>edit</th>
@@ -180,15 +181,25 @@
                class="btn btn-default">ok</a>
           </div>
         </td>
-        <!--! free -->
-        <td>
+        <td><!-- payment received again -->
+          <div tal:condition="abo.payment_received">
+            <form method="POST"
+                  action="${request.route_url('payment_received_again', abo_id=abo.id)}">
+              <input name="repayment_date" type="text" value="${today}"
+                     class="form-control" />
+              <input name="submit" type="submit"
+                     class="btn btn-primary"
+                     value="Wiederholter Zahlungseingang (yyyy-mm-dd) i.H.v. €${abo.amount}"/>
+            </form>
+          </div>
+
         </td>
         <!--! free -->
         <td>
           <a href="#"
              class="btn btn-success">BUMP!</a>
         </td>
-        <td><a href="$ off {request.route_url('edit', _id=abo.id)}"
+        <td><a href="${request.route_url('abo_edit', _id=abo.id)}"
                class="btn btn-warning">edit</a></td>
         <td><a href="${request.route_url('delete_entry', abo_id=abo.id)}"
                class="btn btn-danger delete-link"

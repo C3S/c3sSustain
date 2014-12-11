@@ -501,7 +501,8 @@ class SponsorsFunctionalTests(ZaboTestBase):
         # link to image must be in html
         self.failUnless(
             '/verify/{}.png'.format(new_abo.linkcode) in html.body)
-        self.failUnless('<small>Contribution by</small>' in html.body)
+        self.failUnless('<small>Thanks,</small>' in html.body)
+        #self.failUnless('<small>Contribution by</small>' in html.body)
         self.failUnless(new_abo.name in html.body)
 
         #self.failUnless('no no no' in res.body)
@@ -573,6 +574,7 @@ class BackendFunctionalTests(ZaboTestBase):
         where the buttons to toggle reception of payment are located.
         '''
         self._login_and_dashboard()
+        self.config.add_route('paym_recd', '/')
         res = self.testapp.get('/login', status=302)
         res3 = res.follow()
         self.failUnless('Dashboard' in res3.body)
@@ -601,7 +603,22 @@ class BackendFunctionalTests(ZaboTestBase):
         '''
         res = self.testapp.get('/paym_recd/2', status=302)
         res2 = res.follow()
-        self.failUnless('class="btn btn-primary">Noch nicht?</a>' in res2.body)
+        res = self.testapp.get('/abo_detail/2', status=200)
+
+#        print '#'*80
+#        print '#'*80
+#        print res.body
+#        print '#'*80
+#        print '#'*80
+
+#        self.failUnless('class="btn btn-primary">Nein</a>' in res2.body)
+
+#        snippet = """<td>payment received? (erster Zahlungseingang)</td>
+#          <td>
+#            <div>
+#              <div class="btn btn-danger">Nein</div>"""
+#        self.failUnless(snippet in res2.body)
+
         abo2 = Abo.get_by_id(2)
         self.assertEquals(abo2.payment_received, False)
         _html = self.testapp.get(_url, status=200)
@@ -667,6 +684,7 @@ class BackendFunctionalTests(ZaboTestBase):
         functionality) to get to a specific entry.
         '''
         self._login_and_dashboard()
+        self.config.add_route('switch_pay', '/')
         res = self.testapp.post(
             '/dash',
             params={'code_to_show': u'56789'})  # invalid code
@@ -706,6 +724,132 @@ class BackendFunctionalTests(ZaboTestBase):
 
     def test_dashboard_num_to_show(self):
         pass
+
+    def test_abo_edit(self):
+        '''
+        test the 'abo_edit' view
+
+        login, go to dashboard,
+        then edit an entry
+        '''
+        self._login_and_dashboard()
+        self.config.add_route('paym_recd', '/')
+        res = self.testapp.get('/login', status=302)
+        res3 = res.follow()
+        self.failUnless('Dashboard' in res3.body)
+        #print res3.body
+
+        '''
+        try to edit some non-existing entry
+        '''
+        res = self.testapp.get('/abo_edit/2001', status=302)
+        res2 = res.follow()
+        self.failUnless('Dashboard' in res2.body)
+        '''
+        edit some entry :: check missing form info (name)
+        '''
+        res = self.testapp.get('/abo_edit/2', status=200)
+        #res2 = res.follow()
+        #print res.forms
+        form = res.forms[0]
+        form['name'] = ''
+        form['email'] = 'dev@c3s.cc'
+        form['amount'] = 2342
+        res3 = form.submit('submit')
+        #print res3.body
+
+        '''
+        edit some entry :: check missing form info (email)
+        '''
+        res = self.testapp.get('/abo_edit/2', status=200)
+        #res2 = res.follow()
+        #print res.forms
+        form = res.forms[0]
+        form['name'] = 'näme'
+        form['email'] = ''
+        form['amount'] = 2342
+        res3 = form.submit('submit')
+        #print res3.body
+
+        '''
+        edit some entry
+        '''
+        res = self.testapp.get('/abo_edit/2', status=200)
+        #res2 = res.follow()
+        #print res.forms
+        form = res.forms[0]
+        form['name'] = 'näme'
+        #form['email'] = 'dev@c3s.cc'
+        form['amount'] = 2342
+        res3 = form.submit('submit')
+        #print res3.body
+
+        '''
+        edit some entry :: all fields
+        '''
+        res = self.testapp.get('/abo_edit/2', status=200)
+        #res2 = res.follow()
+        #print res.forms
+        form = res.forms[0]
+        form['name'] = u'näme'
+        form['email'] = 'dev@c3s.cc'
+        form['amount'] = 2342
+        res3 = form.submit('submit')
+        #print res3.body
+
+        # check values from DB
+        abo2 = Abo.get_by_id(2)
+        #print (type(abo2.name), type(abo2.email), type(abo2.amount))
+        self.failUnless(abo2.name == u'näme')
+        self.failUnless(abo2.email == u'dev@c3s.cc')
+        self.failUnless(abo2.amount == 2342)
+
+    def test_repeated_payment(self):
+        '''
+        test the 'payment_received_again' view
+
+        login, go to dashboard,
+        then confirm repeated payment
+        '''
+        self._login_and_dashboard()
+        #self.config.add_route('paym_recd', '/')
+        res = self.testapp.get('/login', status=302)
+        res3 = res.follow()
+        self.failUnless('Dashboard' in res3.body)
+        #print res3.body
+
+        '''
+        try to update some non-existing entry
+        '''
+        res = self.testapp.get('/paym_recd_again/2342', status=302)
+
+
+        '''
+        try to update an existing entry (missing date)
+        '''
+        res = self.testapp.get('/paym_recd_again/2', status=302)
+
+        '''
+        update an existing entry (with invalid date)
+        '''
+        res = self.testapp.post(
+            '/paym_recd_again/2',
+            {'repayment_date': '2014-12-10123'},
+            status=302)
+
+        '''
+        update an existing entry (with date)
+        '''
+        res = self.testapp.post(
+            '/paym_recd_again/2',
+            {'repayment_date': '2014-12-10'},
+            status=302)
+
+        print res.body
+
+
+        #self.failUnless('class="btn btn-default">ok</a>' in res3.body)
+
 
 #         # choose number of applications shown
 #         res6a = self.testapp.get(

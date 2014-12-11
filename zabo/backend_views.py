@@ -282,6 +282,7 @@ def dashboard_view(request):
             'is_first_page': _page_to_show == 0,
             'order': _order,
             'orderby': _order_by,
+            'today': datetime.date.today()
             }
 
 
@@ -443,6 +444,7 @@ def abo_detail(request):
         return {
             'abo': _abo,
             'transfers': Transfers.get_all_transfers_by_aboid(_abo.id),
+            'today': datetime.date.today(),
         }
 
 
