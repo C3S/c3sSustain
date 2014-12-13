@@ -282,7 +282,7 @@ def dashboard_view(request):
             'is_first_page': _page_to_show == 0,
             'order': _order,
             'orderby': _order_by,
-            'today': datetime.date.today()
+            'today': datetime.date.today(),
             }
 
 
@@ -404,6 +404,7 @@ def dashboard_pages_view(request):
             'is_first_page': _page_to_show == 0,
             'order': _order,
             'orderby': _order_by,
+            'today': datetime.date.today(),
             }
 
 
