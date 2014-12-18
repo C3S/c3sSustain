@@ -196,8 +196,15 @@
         </td>
         <!--! free -->
         <td>
-          <a href="#"
-             class="btn btn-success">BUMP!</a>
+          <div tal:condition="not abo.payment_received">
+            <a href="${request.route_url('send_reminder_email', abo_id=abo.id)}"
+               class="btn btn-success"
+               title="send reminder email to subscriber">BUMP!</a>
+          </div>
+          <div tal:condition="abo.payment_received">
+            initial: ${abo.payment_received_date}<br />
+            last: ${abo.payment_last_date}
+          </div>
         </td>
         <td><a href="${request.route_url('abo_edit', _id=abo.id)}"
                class="btn btn-warning">edit</a></td>

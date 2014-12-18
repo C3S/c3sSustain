@@ -7,6 +7,7 @@ from deform import ValidationFailure
 import logging
 import math
 from pyramid.httpexceptions import HTTPFound
+from pyramid.renderers import render
 from pyramid.security import (
     authenticated_userid,
     forget,
@@ -544,6 +545,79 @@ def send_mail_view(request):
     except SMTPRecipientsRefused:  # pragma: no cover
         print('SMTPRecipientsRefused')
         log.info('no connection/SMTPRecipientsRefused')
+        return HTTPFound(
+            request.route_url('dash', number=request.cookies['on_page'],))
+
+    # 'else': send staffer to the dashboard
+    return HTTPFound(request.route_url('dash',
+                                       number=0  # request.cookies['on_page'],
+                                       #order=request.cookies['order'],
+                                       #orderby=request.cookies['orderby'],
+                                       )
+                     )
+
+
+@view_config(route_name='send_reminder_email',
+             permission='manage')
+def send_reminder_email(request):
+    """
+    this view sends a mail to the user in oder to remind her about the campaign
+    """
+    _id = request.matchdict['abo_id']
+    _abo = Abo.get_by_id(_id)
+    if isinstance(_abo, NoneType):
+        return HTTPFound(
+            request.route_url(
+                'dash',
+            )
+        )
+
+    mailer = get_mailer(request)
+
+    if _abo.locale == 'de':
+        _subject = u'Dein Beitrag zum C3S-Sustain-Programm'
+        _lang = 'de'
+    else:
+        _subject = u'Your contribution to the C3S Sustain program'
+        _lang = 'en'
+    the_mail = Message(
+        subject=_subject,
+        sender=request.registry.settings['mail_from'],
+        recipients=[_abo.email],
+        body=render(
+            'templates/mail/reminder_' + _lang + '.pt',
+            {
+                'name': _abo.name,
+                'date': datetime.datetime.strftime(
+                    _abo.date_issued, "%d.%m.%Y"
+                ) if _lang == 'de' else _abo.date_issued,
+            }
+        )
+    )
+    from smtplib import SMTPRecipientsRefused
+    try:
+        mailer.send(the_mail)
+        #mailer.send_immediately(the_mail, fail_silently=False)
+        #print(the_mail.body)
+        _abo.payment_reminder_sent = True
+        _abo.payment_reminder_sent_date = datetime.datetime.now()
+
+    except SMTPRecipientsRefused:  # pragma: no cover
+        print('SMTPRecipientsRefused')
+        log.info('no connection/SMTPRecipientsRefused')
+        # we should inform staff about this!
+        staff_mail = Message(
+            subject=u"SUSTAIN: Mailout failed",
+            sender=request.registry.settings['mail_from'],
+            recipients=['sustain.c3s.cc'],
+            body=u'''this is to inform you that:
+            reminder email to abo id {0} could not be sent:
+no connection/SMTPRecipientsRefused
+
+see https://sustain.c3s.cc/abo_detail/{0}
+'''.format(_abo.id),
+        )
+        mailer.send(staff_mail)
         return HTTPFound(
             request.route_url('dash', number=request.cookies['on_page'],))
 

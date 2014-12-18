@@ -75,6 +75,7 @@ def main(global_config, **settings):
     config.add_route('payment_received', '/paym_recd/{abo_id}')
     config.add_route('payment_received_again', '/paym_recd_again/{abo_id}')
     config.add_route('send_confirmation_email', '/mail_mail_conf/{abo_id}')
+    config.add_route('send_reminder_email', '/mail_reminder/{abo_id}')
     config.add_route('delete_entry', '/del_entry/{abo_id}')
     # statistics
     config.add_route('stats', '/stats')
