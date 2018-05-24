@@ -75,6 +75,9 @@
 	  &amp;
 	  <a tal:attributes="href python:'https://www.c3s.cc/impressum/' if request.locale_name == 'de' else 'https://www.c3s.cc/en/impressum/'"
              i18n:translate="">Imprint</a>
+	  &amp;
+	  <a tal:attributes="href python:'https://www.c3s.cc/datenschutz/' if request.locale_name == 'de' else 'https://www.c3s.cc/en/datenschutz/'"
+             i18n:translate="">Data protection information
 	</div>
       </div>
     </div>
