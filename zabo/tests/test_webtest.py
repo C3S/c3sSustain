@@ -262,7 +262,7 @@ class FrontendFunctionalTests(ZaboTestBase):
         res2 = form.submit('submit')
         self.failUnless(
             'Es gab ein Problem mit Ihren Angaben' in res2.body)
-        self.failUnless('"foo" is not a number' in res2.body)
+        self.failUnless('"foo" ist keine Zahl' in res2.body)
 
         form['amount'] = u'4'
         res2 = form.submit('submit')
